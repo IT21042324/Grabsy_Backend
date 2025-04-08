@@ -1,30 +1,40 @@
 package com.grabsy.GrabsyBackend.Util;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-public class BeanReflectionUtil  {
-    public static Optional<Object> copyNotNullFieldsToObject(Object existing, Object objectWithChangesToUpdate) {
-        if (Objects.equals(existing, null) || Objects.equals(objectWithChangesToUpdate, null) || existing.getClass() != objectWithChangesToUpdate.getClass())
-            return Optional.empty();
+/**
+ * Utility class for copying non-null fields from one object to another using reflection.
+ */
+public class BeanReflectionUtil {
 
-        Arrays.stream(objectWithChangesToUpdate.getClass().getDeclaredFields()).peek(field -> field.setAccessible(true)).filter(field -> {
+    /**
+     * Copies all non-null fields from source to target object.
+     * Only works if both objects are of the same class type.
+     *
+     * @param target the object to be updated
+     * @param source the object containing updated values
+     * @return Optional of updated target object if successful, otherwise Optional.empty()
+     */
+    public static <T> Optional<T> copyNonNullFields(T target, T source) {
+        if (target == null || source == null || !target.getClass().equals(source.getClass())) {
+            return Optional.empty();
+        }
+
+        Arrays.stream(source.getClass().getDeclaredFields()).peek(field -> field.setAccessible(true)).filter(field -> {
             try {
-                return (field.get(objectWithChangesToUpdate) != null);
+                return field.get(source) != null;
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Unable to access field: " + field.getName(), e);
             }
         }).forEach(field -> {
             try {
-                field.set(existing, field.get(objectWithChangesToUpdate));
+                field.set(target, field.get(source));
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Unable to set field: " + field.getName(), e);
             }
         });
 
-        return Optional.of(existing);
+        return Optional.of(target);
     }
 }

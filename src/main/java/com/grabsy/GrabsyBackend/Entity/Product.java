@@ -1,15 +1,15 @@
 package com.grabsy.GrabsyBackend.Entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
-@Setter
+@Data
+@Document(collection = "products")
 public class Product {
     @Id
-    private String Id;
+    private String id;
     private String name;
     private String description;
     private Double price;
@@ -31,6 +31,7 @@ public class Product {
         this.ratings = ratings;
         this.itemsSold = itemsSold;
     }
+
     public Product(String description, Double price, Long itemCount, ProductCategory category, Store store, float ratings,
                    Long itemsSold, Offer offer) {
         this.description = description;
@@ -41,5 +42,9 @@ public class Product {
         this.ratings = ratings;
         this.itemsSold = itemsSold;
         this.offer = offer;
+    }
+
+    public String getId(){
+        return this.id;
     }
 }
