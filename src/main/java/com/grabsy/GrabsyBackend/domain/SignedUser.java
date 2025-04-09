@@ -8,8 +8,19 @@ import java.util.Date;
 
 public abstract class SignedUser {
     // attributes
-    private String userId, userRole, name, email, passwordHash, phoneNumber;
-    private Date registrationDate;
+    protected String userId, userRole, name, email, passwordHash, phoneNumber;
+    protected Date registrationDate;
+
+    // constructor
+    public SignedUser(String userId, String userRole, String name, String email, String passwordHash, String phoneNumber, Date registrationDate) {
+        this.userId = userId;
+        this.userRole = userRole;
+        this.name = name;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.phoneNumber = phoneNumber;
+        this.registrationDate = registrationDate;
+    }
 
     // getters and setters
     public String getUserId() {
