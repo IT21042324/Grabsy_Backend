@@ -1,8 +1,25 @@
 package com.grabsy.GrabsyBackend.model;
 
-public class Card {
-    private String cardNumber, expiryDate;
+import org.springframework.data.annotation.Id;
 
+/**
+ * The Card model represent the structure of a card (debit/credit) a signed user in the system may hold.
+ */
+
+public class Card {
+    @Id
+    private String cardNumber;
+    private String expiryDate;
+
+    //constructors
+    public Card(){}
+
+    public Card(String cardNumber, String expiryDate) {
+        this.cardNumber = cardNumber;
+        this.expiryDate = expiryDate;
+    }
+
+    // getters and setters
     public String getCardNumber() {
         return cardNumber;
     }
