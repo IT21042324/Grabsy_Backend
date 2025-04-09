@@ -5,7 +5,10 @@ import com.grabsy.GrabsyBackend.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products/")
@@ -17,18 +20,19 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<Product> findById(@PathVariable String id) {
-        return service.findById(id);
+    public ResponseEntity<EntityModel<Product>> findById(@PathVariable String id) {
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<Product>> findAll() {
-        return service.findAll();
+    public ResponseEntity<CollectionModel<EntityModel<Product>>> findAll() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @PostMapping
-    public EntityModel<Product> save(@RequestBody Product product) {
-        return service.save(product);
+    public ResponseEntity<EntityModel<Product>> save(@RequestBody Product product) {
+        EntityModel<Product> savedProduct = service.save(product);
+        return ResponseEntity.created(savedProduct.getRequiredLink("self").toUri()).body(savedProduct);
     }
 
     @PatchMapping("/update/{id}")
@@ -39,5 +43,15 @@ public class ProductController {
     @DeleteMapping("/delete/{id}")
     public boolean deleteById(@PathVariable String id) {
         return service.deleteById(id);
+    }
+
+    @GetMapping("/")
+    public CollectionModel<EntityModel<Product>> findAllById(@RequestParam List<String> id) {
+        return service.findAllById(id);
+    }
+
+    @PostMapping("/")
+    public CollectionModel<EntityModel<Product>> findAllByIdThroughPostBodyRequest(@RequestBody List<String> ids) {
+        return service.findAllById(ids);
     }
 }

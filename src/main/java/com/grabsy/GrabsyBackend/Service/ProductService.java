@@ -10,7 +10,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -30,6 +29,15 @@ public class ProductService {
                 linkTo(methodOn(ProductController.class).findAll()).withRel("products"));
     }
 
+    public CollectionModel<EntityModel<Product>> findAllById(List<String> ids){
+        List<EntityModel<Product>> productList = repository.findAllById(ids).stream().map(product ->
+                EntityModel.of(product,
+                        linkTo(methodOn(ProductController.class).findById(product.getId())).withSelfRel())).toList();
+
+        return CollectionModel.of(productList,
+                linkTo(methodOn(ProductController.class).findAllById(ids)).withSelfRel());
+    }
+
     public CollectionModel<EntityModel<Product>> findAll() {
         List<EntityModel<Product>> collect = repository.findAll().stream().map(prod ->
                 EntityModel.of(prod, linkTo(methodOn(ProductController.class).findById(prod.getId())).
@@ -42,6 +50,18 @@ public class ProductService {
         Product createdProduct = repository.save(product);
         return EntityModel.of(createdProduct, linkTo(methodOn(ProductController.class).findById(createdProduct.
                 getId())).withSelfRel());
+    }
+
+    public CollectionModel<EntityModel<Product>> saveAll(List<Product> products){
+        List<EntityModel<Product>> productsCollectionAfterSelfRelation = repository.saveAll(products).
+                stream().map(product -> EntityModel.of(product,
+                linkTo(methodOn(ProductController.class).findById(product.getId())).withSelfRel()))
+                .toList();
+
+        List<String> idList = products.stream().map(Product::getId).toList();
+
+        return CollectionModel.of(productsCollectionAfterSelfRelation,
+                linkTo(methodOn(ProductController.class).findAllById(idList)).withSelfRel());
     }
 
     public EntityModel<Product> findByIdAndUpdate(String id, Product productToSave) {
