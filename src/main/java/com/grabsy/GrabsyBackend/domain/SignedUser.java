@@ -1,5 +1,7 @@
 package com.grabsy.GrabsyBackend.domain;
 
+import org.springframework.data.annotation.Id;
+
 import java.util.Date;
 
 /**
@@ -8,10 +10,14 @@ import java.util.Date;
 
 public abstract class SignedUser {
     // attributes
-    protected String userId, userRole, name, email, passwordHash, phoneNumber;
+    @Id
+    protected String userId;
+    protected String userRole, name, email, passwordHash, phoneNumber;
     protected Date registrationDate;
 
-    // constructor
+    // constructors
+    public SignedUser(){}
+
     public SignedUser(String userId, String userRole, String name, String email, String passwordHash, String phoneNumber, Date registrationDate) {
         this.userId = userId;
         this.userRole = userRole;
