@@ -1,5 +1,17 @@
 package com.grabsy.GrabsyBackend.Entity;
 
-public class ProductCategory {
+import org.springframework.data.annotation.Id;
 
+public class ProductCategory {
+    @Id
+    private String id;
+    public ProductCategory(){}
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

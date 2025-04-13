@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products/")
+@RequestMapping("/api/products")
 public class ProductController {
     private final ProductService service;
 
@@ -29,29 +29,41 @@ public class ProductController {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @PostMapping
+    @GetMapping("/find/all/ids")
+    public ResponseEntity<CollectionModel<EntityModel<Product>>> findAllById(@RequestParam List<String> id) {
+        CollectionModel<EntityModel<Product>> allById = service.findAllById(id);
+        return ResponseEntity.ok(allById);
+    }
+
+    @PostMapping("/find/all")
+    public ResponseEntity<CollectionModel<EntityModel<Product>>> findAllByIdThroughPostBodyRequest(
+            @RequestBody List<String> ids) {
+        CollectionModel<EntityModel<Product>> allById = service.findAllById(ids);
+        return ResponseEntity.ok(allById);
+    }
+
+    @PostMapping("/save")
     public ResponseEntity<EntityModel<Product>> save(@RequestBody Product product) {
         EntityModel<Product> savedProduct = service.save(product);
         return ResponseEntity.created(savedProduct.getRequiredLink("self").toUri()).body(savedProduct);
     }
 
+    @PostMapping("/save/all")
+    public ResponseEntity<CollectionModel<EntityModel<Product>>> saveAll(@RequestBody List<Product> productListToSave) {
+        CollectionModel<EntityModel<Product>> savedProducts = service.saveAll(productListToSave);
+        return ResponseEntity.created(savedProducts.getRequiredLink("self").toUri()).body(savedProducts);
+    }
+
     @PatchMapping("/update/{id}")
-    public EntityModel<Product> findByIdAndUpdate(@PathVariable String id, @RequestBody Product productToSave) {
-        return service.findByIdAndUpdate(id, productToSave);
+    public ResponseEntity<EntityModel<Product>> findByIdAndUpdate(@PathVariable String id,
+                                                                  @RequestBody Product productToSave) {
+        EntityModel<Product> updatedProductById = service.findByIdAndUpdate(id, productToSave);
+        return ResponseEntity.ok(updatedProductById);
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean deleteById(@PathVariable String id) {
-        return service.deleteById(id);
-    }
-
-    @GetMapping("/")
-    public CollectionModel<EntityModel<Product>> findAllById(@RequestParam List<String> id) {
-        return service.findAllById(id);
-    }
-
-    @PostMapping("/")
-    public CollectionModel<EntityModel<Product>> findAllByIdThroughPostBodyRequest(@RequestBody List<String> ids) {
-        return service.findAllById(ids);
+    public ResponseEntity<Boolean> deleteById(@PathVariable String id) {
+        boolean isItemDeleted = service.deleteById(id);
+        return isItemDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

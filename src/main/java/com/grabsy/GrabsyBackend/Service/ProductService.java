@@ -66,7 +66,6 @@ public class ProductService {
 
     public EntityModel<Product> findByIdAndUpdate(String id, Product productToSave) {
         return repository.findById(id).map(existingProduct -> {
-            // Copy non-null fields from incoming product to the existing one
             Product updated = BeanReflectionUtil.copyNonNullFields(existingProduct, productToSave).
                     orElseGet(() -> existingProduct);
 
@@ -77,7 +76,7 @@ public class ProductService {
         }).orElseThrow(()-> new ProductNotFoundException(id));
     }
 
-    public boolean deleteById(String id) {
+    public Boolean deleteById(String id) {
         if (!repository.existsById(id)) {
             throw new ProductNotFoundException(id);
         }

@@ -21,6 +21,8 @@ public class Product {
     private Long itemsSold;
     private Offer offer;
 
+    public Product(){}
+
     public Product(String description, Double price, Long itemCount, ProductCategory category, Store store, float ratings, Long itemsSold) {
         this.description = description;
         this.price = price;
