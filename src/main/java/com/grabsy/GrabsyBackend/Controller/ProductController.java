@@ -2,6 +2,8 @@ package com.grabsy.GrabsyBackend.Controller;
 
 import com.grabsy.GrabsyBackend.Entity.Product;
 import com.grabsy.GrabsyBackend.Service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

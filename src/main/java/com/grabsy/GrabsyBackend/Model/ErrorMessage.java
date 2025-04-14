@@ -1,14 +1,16 @@
 package com.grabsy.GrabsyBackend.Model;
 
+import com.grabsy.GrabsyBackend.Util.LogFormatter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.method.HandlerMethod;
 
 import java.time.Instant;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ErrorMessage {
 
-    private String trace, timestamp, requestPath, exceptionMessage, shortLogMessage;
+    private String trace, requestPath, exceptionMessage, shortLogMessage;
 
     public ErrorMessage() {
     }
@@ -19,14 +21,6 @@ public class ErrorMessage {
 
     public void setTrace(String trace) {
         this.trace = trace;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
     }
 
     public String getRequestPath() {
@@ -56,7 +50,6 @@ public class ErrorMessage {
     public <T extends RuntimeException> void setErrorMessage(T exception, HttpServletRequest servletRequest,
                                                              HandlerMethod handlerMethod) {
         this.trace = exception.getMessage();
-        this.timestamp = Instant.now().toString();
         this.requestPath = servletRequest.getMethod() + " " + servletRequest.getRequestURI();
         this.shortLogMessage = handlerMethod.getShortLogMessage();
     }
@@ -65,32 +58,27 @@ public class ErrorMessage {
         return formattedDefaultMessage();
     }
 
-    public String getFormattedErrorMessage(Map<String, String> additionalInfo) {
+    public String getFormattedErrorMessage(LinkedHashMap<String, String> additionalInfo) {
         return formatMessageWithAdditionalInfo(additionalInfo);
     }
 
     public String formattedDefaultMessage() {
-        return String.format(
-                "Error Message:%n" +
-                        "------------------------%n" +
-                        "Trace:             %s%n" +
-                        "Timestamp:         %s%n" +
-                        "Request Path:      %s%n" +
-                        "Short Log Message: %s%n" +
-                        "------------------------%n",
-                trace, timestamp, requestPath, shortLogMessage);
+        LinkedHashMap<String, String> messages = new LinkedHashMap<>();
+        messages.put("Error Message", "");
+        messages.put("Trace", trace);
+        messages.put("Timestamp", Instant.now().toString());
+        messages.put("Request Path", requestPath);
+        messages.put("Short Log Message", shortLogMessage);
+
+        return LogFormatter.logFormattingTemplate(messages);
     }
 
-    public String formatMessageWithAdditionalInfo(Map<String, String> additionalInfo) {
-        StringBuilder sb = new StringBuilder(getFormattedErrorMessage());
+    public String formatMessageWithAdditionalInfo(LinkedHashMap<String, String> additionalInfo) {
+        StringBuilder sb = new StringBuilder(formattedDefaultMessage());
 
-        if (additionalInfo != null && !additionalInfo.isEmpty()) {
-            sb.append("Additional Information:%n");
-            for (Map.Entry<String, String> entry : additionalInfo.entrySet()) {
-                sb.append(String.format("   %s: %s%n", entry.getKey(), entry.getValue()));
-            }
-        }
-        sb.append("------------------------");
+        if (additionalInfo != null && !additionalInfo.isEmpty())
+           sb.append(formatMessageWithAdditionalInfo(additionalInfo));
+
         return sb.toString();
     }
 
@@ -98,7 +86,7 @@ public class ErrorMessage {
     public String toString() {
         return "ErrorMessage{" +
                 "trace='" + trace + '\'' +
-                ", timestamp='" + timestamp + '\'' +
+                ", timestamp='" + Instant.now().toString() + '\'' +
                 ", requestPath='" + requestPath + '\'' +
                 ", exceptionMessage='" + exceptionMessage + '\'' +
                 ", shortLogMessage='" + shortLogMessage + '\'' +
