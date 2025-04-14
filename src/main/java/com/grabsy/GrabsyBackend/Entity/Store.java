@@ -1,7 +1,9 @@
 package com.grabsy.GrabsyBackend.Entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "stores")
 public class Store {
     @Id
     private String id;

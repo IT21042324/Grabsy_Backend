@@ -16,6 +16,7 @@ public class Product {
     private Rendition rendition;
     private Long itemCount;
     private ProductCategory category;
+    private String origin;
     private Store store;
     private float ratings;
     private Long itemsSold;
@@ -23,21 +24,29 @@ public class Product {
 
     public Product(){}
 
-    public Product(String description, Double price, Long itemCount, ProductCategory category, Store store, float ratings, Long itemsSold) {
+    public Product(String id){
+        this.id = id;
+    }
+
+    public Product(String description, Double price, Long itemCount, ProductCategory category, String origin,
+                   Store store, float ratings, Long itemsSold) {
         this.description = description;
         this.price = price;
         this.itemCount = itemCount;
         this.category = category;
+        this.origin = origin;
         this.store = store;
         this.ratings = ratings;
         this.itemsSold = itemsSold;
     }
 
-    public Product(String description, Double price, Long itemCount, ProductCategory category, Store store, float ratings, Long itemsSold, Offer offer) {
+    public Product(String description, Double price, Long itemCount, ProductCategory category, String origin,
+                   Store store, float ratings, Long itemsSold, Offer offer) {
         this.description = description;
         this.price = price;
         this.itemCount = itemCount;
         this.category = category;
+        this.origin = origin;
         this.store = store;
         this.ratings = ratings;
         this.itemsSold = itemsSold;
@@ -70,6 +79,14 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 
     public Rendition getRendition() {
@@ -147,9 +164,19 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", description='" + description + '\''
-                + ", price=" + price + ", rendition=" + rendition + ", itemCount=" + itemCount + ", category="
-                + category + ", store=" + store + ", ratings=" + ratings + ", itemsSold=" + itemsSold
-                + ", offer=" + offer + '}';
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", rendition=" + rendition +
+                ", itemCount=" + itemCount +
+                ", category=" + category +
+                ", origin='" + origin + '\'' +
+                ", store=" + store +
+                ", ratings=" + ratings +
+                ", itemsSold=" + itemsSold +
+                ", offer=" + offer +
+                '}';
     }
 }

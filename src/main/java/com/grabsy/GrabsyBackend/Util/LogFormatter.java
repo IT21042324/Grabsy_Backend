@@ -3,7 +3,6 @@ package com.grabsy.GrabsyBackend.Util;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class LogFormatter {
