@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Entity.users;
+package com.grabsy.GrabsyBackend.Entity.User;
 
 import com.grabsy.GrabsyBackend.domain.SignedUser;
 import com.grabsy.GrabsyBackend.model.Card;

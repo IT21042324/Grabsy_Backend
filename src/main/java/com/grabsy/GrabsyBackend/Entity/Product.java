@@ -1,13 +1,14 @@
 package com.grabsy.GrabsyBackend.Entity;
 
-
+import com.grabsy.GrabsyBackend.Entity.Review.Reviewable;
+import com.grabsy.GrabsyBackend.domain.Review;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Objects;
+import java.util.List;
 
 @Document(collection = "products")
-public class Product {
+public class Product implements Reviewable {
     @Id
     private String id;
     private String name;
@@ -20,11 +21,15 @@ public class Product {
     private Store store;
     private float ratings;
     private Long itemsSold;
+    private List<Review> reviews;
     private Offer offer;
 
-    public Product(){}
+    private Byte Ratings;
 
-    public Product(String id){
+    public Product() {
+    }
+
+    public Product(String id) {
         this.id = id;
     }
 
@@ -129,6 +134,16 @@ public class Product {
         this.ratings = ratings;
     }
 
+    @Override
+    public List<Review> getReviews() {
+        return this.reviews;
+    }
+
+    @Override
+    public void setReviews(List<Review> reviewList) {
+        this.reviews = reviewList;
+    }
+
     public Long getItemsSold() {
         return itemsSold;
     }
@@ -150,19 +165,6 @@ public class Product {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Float.compare(ratings, product.ratings) == 0
-                && Objects.equals(name, product.name)
-                && Objects.equals(description, product.description) && Objects.equals(price, product.price)
-                && Objects.equals(rendition, product.rendition) && Objects.equals(itemCount, product.itemCount)
-                && Objects.equals(category, product.category) && Objects.equals(store, product.store)
-                && Objects.equals(itemsSold, product.itemsSold) && Objects.equals(offer, product.offer);
-    }
-
-    @Override
     public String toString() {
         return "Product{" +
                 "id='" + id + '\'' +
@@ -176,7 +178,9 @@ public class Product {
                 ", store=" + store +
                 ", ratings=" + ratings +
                 ", itemsSold=" + itemsSold +
+                ", reviews=" + reviews +
                 ", offer=" + offer +
+                ", Ratings=" + Ratings +
                 '}';
     }
 }

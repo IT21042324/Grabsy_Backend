@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.controller;
+package com.grabsy.GrabsyBackend.Controller;
 
 import com.grabsy.GrabsyBackend.Entity.Product;
 import com.grabsy.GrabsyBackend.Repository.ProductRepository;

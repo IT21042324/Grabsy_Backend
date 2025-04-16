@@ -1,12 +1,18 @@
 package com.grabsy.GrabsyBackend.Entity;
 
+import com.grabsy.GrabsyBackend.Entity.Review.Reviewable;
+import com.grabsy.GrabsyBackend.domain.Review;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "stores")
-public class Store {
+public class Store implements Reviewable {
     @Id
     private String id;
+    private String sellerId;
+    private List<Review> reviews;
 
     public Store() {
     }
@@ -17,5 +23,32 @@ public class Store {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    @Override
+    public List<Review> getReviews() {
+        return this.reviews;
+    }
+
+    @Override
+    public void setReviews(List<Review> reviewList) {
+        this.reviews = reviewList;
+    }
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "id='" + id + '\'' +
+                ", sellerId='" + sellerId + '\'' +
+                ", reviews=" + reviews +
+                '}';
     }
 }

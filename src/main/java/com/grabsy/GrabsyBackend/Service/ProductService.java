@@ -76,6 +76,10 @@ public class ProductService {
         }).orElseThrow(()-> new ProductNotFoundException(id));
     }
 
+//    public EntityModel<Review> addReviewById(String id, Review review){
+//
+//    }
+
     public Boolean deleteById(String id) {
         if (!repository.existsById(id)) {
             throw new ProductNotFoundException(id);
