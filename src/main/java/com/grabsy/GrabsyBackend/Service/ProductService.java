@@ -1,9 +1,9 @@
-package com.grabsy.GrabsyBackend.Service;
+package com.grabsy.GrabsyBackend.service;
 
-import com.grabsy.GrabsyBackend.Controller.ProductController;
-import com.grabsy.GrabsyBackend.Entity.Product;
-import com.grabsy.GrabsyBackend.Exception.ProductNotFoundException;
-import com.grabsy.GrabsyBackend.Repository.ProductRepository;
+import com.grabsy.GrabsyBackend.controller.ProductController;
+import com.grabsy.GrabsyBackend.entity.Product;
+import com.grabsy.GrabsyBackend.exception.ProductNotFoundException;
+import com.grabsy.GrabsyBackend.repository.ProductRepository;
 import com.grabsy.GrabsyBackend.Util.BeanReflectionUtil;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

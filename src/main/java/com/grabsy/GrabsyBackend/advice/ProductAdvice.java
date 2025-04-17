@@ -1,6 +1,6 @@
-package com.grabsy.GrabsyBackend.Advice;
-import com.grabsy.GrabsyBackend.Exception.ProductNotFoundException;
-import com.grabsy.GrabsyBackend.Model.ErrorMessage;
+package com.grabsy.GrabsyBackend.advice;
+import com.grabsy.GrabsyBackend.exception.ProductNotFoundException;
+import com.grabsy.GrabsyBackend.model.ErrorMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,12 +1,14 @@
-package com.grabsy.GrabsyBackend.Entity;
+package com.grabsy.GrabsyBackend.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class Offer {
+@Document(collection = "stores")
+public class Store {
     @Id
     private String id;
 
-    public Offer() {
+    public Store() {
     }
 
     public String getId() {

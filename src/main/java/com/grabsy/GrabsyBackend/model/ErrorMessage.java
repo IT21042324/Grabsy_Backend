@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Model;
+package com.grabsy.GrabsyBackend.model;
 
 import com.grabsy.GrabsyBackend.Util.LogFormatter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,7 +6,6 @@ import org.springframework.web.method.HandlerMethod;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class ErrorMessage {
 

@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Exception;
+package com.grabsy.GrabsyBackend.exception;
 
 public class ProductNotFoundException extends RuntimeException {
     public ProductNotFoundException(String id){

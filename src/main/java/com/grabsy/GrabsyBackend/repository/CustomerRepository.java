@@ -1,6 +1,6 @@
-package com.grabsy.GrabsyBackend.Repository;
+package com.grabsy.GrabsyBackend.repository;
 
-import com.grabsy.GrabsyBackend.Entity.users.Customer;
+import com.grabsy.GrabsyBackend.entity.users.Customer;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**

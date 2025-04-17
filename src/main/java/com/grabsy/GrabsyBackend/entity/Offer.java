@@ -1,12 +1,12 @@
-package com.grabsy.GrabsyBackend.Entity;
+package com.grabsy.GrabsyBackend.entity;
 
 import org.springframework.data.annotation.Id;
 
-public class Rendition {
+public class Offer {
     @Id
     private String id;
 
-    public Rendition() {
+    public Offer() {
     }
 
     public String getId() {

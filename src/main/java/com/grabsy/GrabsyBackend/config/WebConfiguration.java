@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Config;
+package com.grabsy.GrabsyBackend.config;
 
 import com.grabsy.GrabsyBackend.Middleware.Interceptor.RequestLoggingInterceptor;
 import org.springframework.context.annotation.Configuration;

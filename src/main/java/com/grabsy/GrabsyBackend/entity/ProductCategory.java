@@ -1,9 +1,7 @@
-package com.grabsy.GrabsyBackend.Entity;
-import com.grabsy.GrabsyBackend.Entity.Product;
+package com.grabsy.GrabsyBackend.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
