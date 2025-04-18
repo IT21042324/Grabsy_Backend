@@ -6,7 +6,10 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/catalog")
@@ -25,4 +28,14 @@ public class CatalogController {
     public CollectionModel<EntityModel<Product>> browseCatalog(){
         return productService.findAll();
     }
+
+    // TODO : Complete this method once relevant productSerivce search method has been implemented
+    /**
+     * This method retrieves products from the catalog based on a search query and converts them to a CollectionModel<EntityModel<Product>> object.
+     * @return the CollectionModel<EntityModel<Product>> object
+     */
+    // @GetMapping("/search")
+    // public CollectionModel<EntityModel<Product>> searchProducts(@RequestParam Optional<String> keyword){
+    //     return productService.searchProducts(keyword);
+    // }
 }
