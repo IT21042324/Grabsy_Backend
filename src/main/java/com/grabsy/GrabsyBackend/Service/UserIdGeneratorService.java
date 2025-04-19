@@ -18,7 +18,7 @@ public class UserIdGeneratorService {
      * @param role the role of the user
      * @return a new user id
      */
-    public String generateUserId(String role){
+    public synchronized String generateUserId(String role){
         UserIdCounter counter = userIdCounterRepository.findById(role.toUpperCase())
                 .orElseGet(() -> new UserIdCounter(role.toUpperCase(), 0));
 
