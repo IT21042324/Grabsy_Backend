@@ -2,7 +2,7 @@ package com.grabsy.GrabsyBackend.domain;
 
 import org.springframework.data.annotation.Id;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * The SignedUser domain object represent the structure of a signed user in the system.
@@ -11,14 +11,15 @@ import java.util.Date;
 public abstract class SignedUser {
     // attributes
     @Id
+    // TODO : Change userID to string, and use custom id generator class to create userID based on whether the person is customer, seller, or admin
     protected String userId;
     protected String userRole, name, email, passwordHash, phoneNumber;
-    protected Date registrationDate;
+    protected LocalDateTime registrationDate;
 
     // constructors
     public SignedUser(){}
 
-    public SignedUser(String userId, String userRole, String name, String email, String passwordHash, String phoneNumber, Date registrationDate) {
+    public SignedUser(String userId, String userRole, String name, String email, String passwordHash, String phoneNumber, LocalDateTime registrationDate) {
         this.userId = userId;
         this.userRole = userRole;
         this.name = name;
@@ -77,11 +78,11 @@ public abstract class SignedUser {
         this.phoneNumber = phoneNumber;
     }
 
-    public Date getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 }
