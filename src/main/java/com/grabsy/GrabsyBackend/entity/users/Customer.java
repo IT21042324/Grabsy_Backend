@@ -4,7 +4,7 @@ import com.grabsy.GrabsyBackend.domain.SignedUser;
 import com.grabsy.GrabsyBackend.model.Card;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,7 +19,8 @@ public class Customer extends SignedUser {
     // constructors
     public Customer(){}
 
-    public Customer(String userId, String userRole, String name, String email, String passwordHash, String phoneNumber, Date registrationDate) {
+    public Customer(String userId, String userRole, String name, String email, String passwordHash, String phoneNumber,
+                    LocalDateTime registrationDate) {
         super(userId, userRole, name, email, passwordHash, phoneNumber, registrationDate);
     }
 
