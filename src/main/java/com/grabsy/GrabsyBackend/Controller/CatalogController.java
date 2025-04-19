@@ -38,4 +38,6 @@ public class CatalogController {
     // public CollectionModel<EntityModel<Product>> searchProducts(@RequestParam Optional<String> keyword){
     //     return productService.searchProducts(keyword);
     // }
+
+    // TODO : Implement filterProducts() method
 }
