@@ -11,6 +11,10 @@ import java.util.List;
 public class UserController {
     private ProductRepository productRepository;
 
+    public UserController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     @GetMapping("/user/browse")
     public List<Product> browseCatalog(){
         return productRepository.findAll();
