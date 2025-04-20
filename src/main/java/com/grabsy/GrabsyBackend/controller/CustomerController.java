@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customer")
 public class CustomerController {
     private final CustomerModelAssembler customerModelAssembler;
-    private final CustomerRepository customerRepository;
+    private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService, CustomerModelAssembler customerModelAssembler,
                               CustomerRepository customerRepository) {
         this.customerModelAssembler = customerModelAssembler;
-        this.customerRepository = customerRepository;
+        this.customerService = customerService;
     }
 
     /**
@@ -31,7 +31,7 @@ public class CustomerController {
      */
     @GetMapping("/all")
     public CollectionModel<EntityModel<Customer>> findAllCustomers() {
-        return customerModelAssembler.toCollectionModel(customerRepository.findAll());
+        return customerModelAssembler.toCollectionModel(customerService.findAllCustomers());
     }
 
     /**
@@ -41,8 +41,7 @@ public class CustomerController {
      */
     @GetMapping("{userId}")
     public EntityModel<Customer> getCustomerById(@PathVariable String userId) {
-        Customer customer = customerRepository.findById(userId)
-                .orElseThrow(() -> new CustomerNotFoundException(userId));
+        Customer customer = customerService.getCustomerById(userId);
 
         return customerModelAssembler.toModel(customer);
     }

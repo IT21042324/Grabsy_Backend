@@ -3,10 +3,12 @@ package com.grabsy.GrabsyBackend.service;
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
+import com.grabsy.GrabsyBackend.exception.CustomerNotFoundException;
 import com.grabsy.GrabsyBackend.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * This class is a service for the Customer entity, it contains business logic related to customers.
@@ -49,6 +51,25 @@ public class CustomerService {
         customer.setRegistrationDate(LocalDateTime.now());
 
         return customerRepository.save(customer);
+    }
+
+    /**
+     * This method retrieves all customers.
+     * @return A list of all customers.
+     */
+    public List<Customer> findAllCustomers(){
+        return customerRepository.findAll();
+    }
+
+    /**
+     * This method retrieves a customer by their ID.
+     * @param userId The ID of the customer to retrieve.
+     * @return The customer with the specified ID.
+     * @throws CustomerNotFoundException If the customer with the specified ID is not found.
+     */
+    public Customer getCustomerById(String userId) {
+        return customerRepository.findById(userId)
+                .orElseThrow(() -> new CustomerNotFoundException(userId));
     }
 
     /**
