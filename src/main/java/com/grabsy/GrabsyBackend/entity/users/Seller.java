@@ -3,7 +3,7 @@ package com.grabsy.GrabsyBackend.entity.users;
 import com.grabsy.GrabsyBackend.domain.SignedUser;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ public class Seller extends SignedUser {
     // constructors
     public Seller(List<String> productsListed, Double sellerRating, String storeId) {}
 
-    public Seller(String userId, String userRole, String name, String email, String passwordHash, String phoneNumber, Date registrationDate, List<String> productsListed, Double sellerRating, String storeId) {
+    public Seller(String userId, String userRole, String name, String email, String passwordHash, String phoneNumber, LocalDateTime registrationDate, List<String> productsListed, Double sellerRating, String storeId) {
         super(userId, userRole, name, email, passwordHash, phoneNumber, registrationDate);
         this.productsListed = productsListed;
         this.sellerRating = sellerRating;
