@@ -1,6 +1,5 @@
 package com.grabsy.GrabsyBackend.service;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
@@ -15,38 +14,28 @@ import java.time.LocalDateTime;
 
 @Service
 public class CustomerService {
+    private final SecurityService securityService;
     private final CustomerRepository customerRepository;
+    private final UserValidationService userValidationService;
     private final UserIdGeneratorService userIdGeneratorService;
 
     // constructor
-    public CustomerService(CustomerRepository customerRepository, UserIdGeneratorService userIdGeneratorService) {
-        this.customerRepository = customerRepository;
+    public CustomerService(SecurityService securityService, CustomerRepository customerRepository,
+                           CustomerRepository customerRepository1, UserValidationService userValidationService,
+                           UserIdGeneratorService userIdGeneratorService) {
+        this.securityService = securityService;
+        this.customerRepository = customerRepository1;
+        this.userValidationService = userValidationService;
         this.userIdGeneratorService = userIdGeneratorService;
     }
 
-    // TODO : Doesn't this need exception handling? What about ID? What about other variables?
-    public Customer registerCustomer(CustomerDto customerDto) throws IllegalAccessException {
+    public Customer registerCustomer(CustomerDto customerDto) {
         // validate the customerDto
-        if (!isValidEmail(customerDto.getEmail())){
-            throw new IllegalAccessException("Invalid email format"); // is this the correct exception to throw ?
-        }
-
         // TODO : Let user know what exactly is the issue, whether it's not enough characters and so on
-        if (!isValidPassword(customerDto.getPassword())){
-            throw new IllegalArgumentException("Password does not meet security criteria");
-        }
-
-        if(!isValidPhoneNumber(customerDto.getPhoneNumber())){
-            throw new IllegalArgumentException("Invalid phone number");
-        }
-
-        if (!isValidShippingAddress(customerDto.getShippingAddress())){
-            throw new IllegalArgumentException("Invalid shipping address");
-        }
-
-        if (!isValidEmail(customerDto.getEmail())){
-            throw new IllegalArgumentException("Invalid email format");
-        }
+        userValidationService.validatePassword(customerDto.getPassword());
+        userValidationService.validatePhoneNumber(customerDto.getPhoneNumber());
+        userValidationService.validateEmail(UserRole.CUSTOMER, customerDto.getEmail());
+        validateShippingAddress(customerDto.getShippingAddress());
 
         // Map DTO to Customer Entity
         Customer customer = new Customer();
@@ -54,68 +43,23 @@ public class CustomerService {
         customer.setUserId(userIdGeneratorService.generateUserId(customer.getUserRole()));
         customer.setName(customerDto.getName());
         customer.setEmail(customerDto.getEmail());
-        customer.setPasswordHash(hashPassword(customerDto.getPassword()));
+        customer.setPasswordHash(securityService.hashPassword(customerDto.getPassword()));
         customer.setPhoneNumber(customer.getPhoneNumber());
         customer.setShippingAddress(customerDto.getShippingAddress());
         customer.setRegistrationDate(LocalDateTime.now());
 
-        return customer;
+        return customerRepository.save(customer);
     }
 
-    /**
-     *
-     * @param password
-     * @return hashed password
-     */
-    private String hashPassword(String password) {
-        return BCrypt.withDefaults().hashToString(12, password.toCharArray());
-    }
-
-    //validation methods
     /**
      * This method checks if the shipping address is valid.
      * Ensures it's not null and contains enough information to be usable.
      * @param shippingAddress
-     * @return true if the shipping address is valid, false otherwise
      */
     // TODO : Check if the address is valid, not just whether it's not null
-    private boolean isValidShippingAddress(String shippingAddress) {
-        return shippingAddress != null && !shippingAddress.trim().isEmpty() && shippingAddress.length() >= 10;
-    }
-
-    /**
-     * This method checks if the phone number is valid. Whether it contains only numbers and is 10 digits long.
-     * @param phoneNumber
-     * @return true if the phone number is valid, false otherwise
-     */
-    private boolean isValidPhoneNumber(String phoneNumber) {
-        return phoneNumber != null && phoneNumber.matches("^\\d{10}$");
-    }
-
-    /**
-     * This method checks if the password is valid.
-     * Whether it contains at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.
-     * @param password
-     * @return true if the password is valid, false otherwise
-     */
-    private boolean isValidPassword(String password) {
-        return password != null && password.length() >= 8 && password.matches(".*[A-Z].*") &&
-                password.matches(".*[a-z].*") && password.matches(".*[0-9].*") &&
-                password.matches(".*[@#$%^&+=].*");
-    }
-
-    /**
-     * This method checks if the email is valid.
-     * Whether it starts with one or more letters, numbers, or special characters, followed by an @ symbol and a domain.
-     * @param email
-     * @return true if the email is valid, false otherwise
-     */
-    // TODO : Implement logic to check if it's an actual email, not just whether the syntax is correct. Let the user know what the issue is, like what is missing
-    private boolean isValidEmail(String email) {
-        if (customerRepository.existsCustomerByEmail(email)) {
-            throw new IllegalArgumentException("Email already exists");
+    private void validateShippingAddress(String shippingAddress) {
+        if (shippingAddress == null || shippingAddress.trim().isEmpty() || shippingAddress.length() < 10) {
+            throw new IllegalArgumentException("Invalid shipping address");
         }
-
-        return email != null && email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
     }
 }
