@@ -5,6 +5,7 @@ import com.grabsy.GrabsyBackend.entity.users.Seller;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -13,6 +14,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * This class is responsible for converting Seller entities into EntityModel objects.
  */
 
+@Component
 public class SellerModelAssembler implements RepresentationModelAssembler<Seller, EntityModel<Seller>> {
 
     /**
