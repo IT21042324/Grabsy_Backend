@@ -17,6 +17,8 @@ public class Seller extends SignedUser {
     private String storeId;
 
     // constructors
+    public Seller(){};
+
     public Seller(List<String> productsListed, Double sellerRating, String storeId) {}
 
     public Seller(String userId, String userRole, String name, String email, String passwordHash, String phoneNumber, LocalDateTime registrationDate, List<String> productsListed, Double sellerRating, String storeId) {
