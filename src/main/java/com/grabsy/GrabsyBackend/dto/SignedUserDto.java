@@ -5,7 +5,7 @@ package com.grabsy.GrabsyBackend.dto;
  */
 
 public class SignedUserDto {
-    private String name, email, password, phoneNumber, shippingAddress;
+    private String name, email, password, phoneNumber;
 
     // getters and setters
     public String getName() {
@@ -38,13 +38,5 @@ public class SignedUserDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
     }
 }
