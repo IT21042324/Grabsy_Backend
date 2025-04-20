@@ -8,4 +8,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 
 public interface AdminRepository extends MongoRepository<Admin, Long> {
+    boolean existsAdminByEmail(String email);
 }
