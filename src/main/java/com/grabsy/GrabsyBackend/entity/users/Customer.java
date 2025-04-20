@@ -13,7 +13,7 @@ import java.util.List;
 
 @Document(collection = "customers")
 public class Customer extends SignedUser {
-    private String shippingAddress, billingAddress;
+    private String shippingAddress;
     private List<Card> paymentCards;
 
     // constructors
@@ -31,14 +31,6 @@ public class Customer extends SignedUser {
 
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
-    }
-
-    public String getBillingAddress() {
-        return billingAddress;
-    }
-
-    public void setBillingAddress(String billingAddress) {
-        this.billingAddress = billingAddress;
     }
 
     public List<Card> getPaymentCards() {
