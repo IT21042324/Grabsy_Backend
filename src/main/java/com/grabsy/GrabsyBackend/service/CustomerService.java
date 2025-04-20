@@ -1,11 +1,11 @@
 package com.grabsy.GrabsyBackend.service;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.SignedUserDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
 import com.grabsy.GrabsyBackend.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.time.LocalDateTime;
 
@@ -44,7 +44,7 @@ public class CustomerService {
             throw new IllegalArgumentException("Invalid shipping address");
         }
 
-        if (isValidEmail(userDto.getEmail())){
+        if (!isValidEmail(userDto.getEmail())){
             throw new IllegalArgumentException("Invalid email format");
         }
 
@@ -63,12 +63,12 @@ public class CustomerService {
     }
 
     /**
-     * This method hashes the password using BCrypt hashing algorithm.
+     *
      * @param password
      * @return hashed password
      */
     private String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt());
+        return BCrypt.withDefaults().hashToString(12, password.toCharArray());
     }
 
     //validation methods
