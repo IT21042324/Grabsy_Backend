@@ -2,7 +2,7 @@ package com.grabsy.GrabsyBackend.service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.grabsy.GrabsyBackend.constant.UserRole;
-import com.grabsy.GrabsyBackend.dto.SignedUserDto;
+import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
 import com.grabsy.GrabsyBackend.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -25,26 +25,26 @@ public class CustomerService {
     }
 
     // TODO : Doesn't this need exception handling? What about ID? What about other variables?
-    public Customer registerCustomer(SignedUserDto userDto) throws IllegalAccessException {
-        // validate the userDto
-        if (!isValidEmail(userDto.getEmail())){
+    public Customer registerCustomer(CustomerDto customerDto) throws IllegalAccessException {
+        // validate the customerDto
+        if (!isValidEmail(customerDto.getEmail())){
             throw new IllegalAccessException("Invalid email format"); // is this the correct exception to throw ?
         }
 
         // TODO : Let user know what exactly is the issue, whether it's not enough characters and so on
-        if (!isValidPassword(userDto.getPassword())){
+        if (!isValidPassword(customerDto.getPassword())){
             throw new IllegalArgumentException("Password does not meet security criteria");
         }
 
-        if(!isValidPhoneNumber(userDto.getPhoneNumber())){
+        if(!isValidPhoneNumber(customerDto.getPhoneNumber())){
             throw new IllegalArgumentException("Invalid phone number");
         }
 
-        if (!isValidShippingAddress(userDto.getShippingAddress())){
+        if (!isValidShippingAddress(customerDto.getShippingAddress())){
             throw new IllegalArgumentException("Invalid shipping address");
         }
 
-        if (!isValidEmail(userDto.getEmail())){
+        if (!isValidEmail(customerDto.getEmail())){
             throw new IllegalArgumentException("Invalid email format");
         }
 
@@ -52,11 +52,11 @@ public class CustomerService {
         Customer customer = new Customer();
         customer.setUserRole(String.valueOf(UserRole.CUSTOMER));
         customer.setUserId(userIdGeneratorService.generateUserId(customer.getUserRole()));
-        customer.setName(userDto.getName());
-        customer.setEmail(userDto.getEmail());
-        customer.setPasswordHash(hashPassword(userDto.getPassword()));
+        customer.setName(customerDto.getName());
+        customer.setEmail(customerDto.getEmail());
+        customer.setPasswordHash(hashPassword(customerDto.getPassword()));
         customer.setPhoneNumber(customer.getPhoneNumber());
-        customer.setShippingAddress(userDto.getShippingAddress());
+        customer.setShippingAddress(customerDto.getShippingAddress());
         customer.setRegistrationDate(LocalDateTime.now());
 
         return customer;
