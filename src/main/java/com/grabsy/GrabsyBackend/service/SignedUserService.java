@@ -19,4 +19,8 @@ public abstract class SignedUserService {
     protected <T> List<T> getAllUsersByRole(MongoRepository<T, String> repository){
         return repository.findAll();
     }
+
+    protected <T> void deleteUserById(String userId, MongoRepository<T, String> repository){
+        repository.deleteById(userId);
+    }
 }

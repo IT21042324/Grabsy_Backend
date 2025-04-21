@@ -61,6 +61,10 @@ public class CustomerService extends SignedUserService{
         return getUserById(userId, customerRepository);
     }
 
+    public void removeCustomer(String userId){
+        deleteUserById(userId, customerRepository);
+    }
+
     /**
      * This method checks if the shipping address is valid.
      * Ensures it's not null and contains enough information to be usable.

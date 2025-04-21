@@ -5,6 +5,7 @@ import com.grabsy.GrabsyBackend.entity.users.Customer;
 import com.grabsy.GrabsyBackend.service.CustomerService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -32,5 +33,12 @@ public class CustomerController {
         Customer customer = customerService.getCustomerById(userId);
 
         return customerModelAssembler.toModel(customer);
+    }
+
+    @DeleteMapping("/remove/{userId}")
+    public ResponseEntity<?> removeCustomer(@PathVariable String userId){
+        customerService.removeCustomer(userId);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -36,6 +36,10 @@ public class SellerService extends SignedUserService {
         return getAllUsersByRole(sellerRepository);
     }
 
+    public void removeSeller(String userId){
+        deleteUserById(userId, sellerRepository);
+    }
+
     public Seller registerSeller(SellerDto sellerDto) {
         // validate the sellerDto
         userValidationService.validatePassword(sellerDto.getPassword());

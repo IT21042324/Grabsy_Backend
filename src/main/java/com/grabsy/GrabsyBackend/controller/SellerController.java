@@ -5,10 +5,8 @@ import com.grabsy.GrabsyBackend.entity.users.Seller;
 import com.grabsy.GrabsyBackend.service.SellerService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class is a controller for the Seller entity, it contains endpoints related to sellers.
@@ -32,5 +30,12 @@ public class SellerController {
     @GetMapping("/all")
     public CollectionModel<EntityModel<Seller>> findAllSellers() {
         return sellerModelAssembler.toCollectionModel(sellerService.findAllSellers());
+    }
+
+    @DeleteMapping("/remove/{userId}")
+    public ResponseEntity<?> removeSeller(@PathVariable String userId){
+        sellerService.removeSeller(userId);
+
+        return ResponseEntity.noContent().build();
     }
 }
