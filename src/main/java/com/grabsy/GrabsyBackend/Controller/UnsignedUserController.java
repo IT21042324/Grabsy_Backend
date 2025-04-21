@@ -6,11 +6,8 @@ import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.dto.SellerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
 import com.grabsy.GrabsyBackend.entity.users.Seller;
-import com.grabsy.GrabsyBackend.repository.CustomerRepository;
-import com.grabsy.GrabsyBackend.repository.SellerRepository;
 import com.grabsy.GrabsyBackend.service.CustomerService;
 import com.grabsy.GrabsyBackend.service.SellerService;
-import com.grabsy.GrabsyBackend.service.UnsignedUserService;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +24,8 @@ public class UnsignedUserController {
     private final SellerService sellerService;
     private final SellerModelAssembler sellerModelAssembler;
 
-    public UnsignedUserController(UnsignedUserService unsignedUserService, CustomerService customerService,
-                                  CustomerModelAssembler customerModelAssembler, CustomerRepository customerRepository,
-                                  SellerRepository sellerRepository, SellerService sellerService,
-                                  SellerModelAssembler sellerModelAssembler) {
+    public UnsignedUserController(CustomerService customerService, CustomerModelAssembler customerModelAssembler,
+                                  SellerService sellerService, SellerModelAssembler sellerModelAssembler) {
         this.customerService = customerService;
         this.customerModelAssembler = customerModelAssembler;
         this.sellerService = sellerService;
