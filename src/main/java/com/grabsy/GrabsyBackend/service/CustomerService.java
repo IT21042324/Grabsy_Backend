@@ -53,20 +53,10 @@ public class CustomerService extends SignedUserService{
         return customerRepository.save(customer);
     }
 
-    /**
-     * This method retrieves all customers.
-     * @return A list of all customers.
-     */
     public List<Customer> findAllCustomers(){
-        return customerRepository.findAll();
+        return getAllUsersByRole(customerRepository);
     }
 
-    /**
-     * This method retrieves a customer by their ID.
-     * @param userId The ID of the customer to retrieve.
-     * @return The customer with the specified ID.
-     * @throws UserNotFoundException If the customer with the specified ID is not found.
-     */
     public Customer getCustomerById(String userId) {
         return getUserById(userId, customerRepository);
     }

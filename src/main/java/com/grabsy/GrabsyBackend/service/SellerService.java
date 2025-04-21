@@ -28,22 +28,12 @@ public class SellerService extends SignedUserService {
         this.userIdGeneratorService = userIdGeneratorService;
     }
 
-    /**
-     * This method retrieves a seller by their ID.
-     * @param userId The ID of the seller to retrieve.
-     * @return The seller with the specified ID.
-     * @throws UserNotFoundException If the seller with the specified ID is not found.
-     */
     public Seller getSellerById(String userId) {
         return getUserById(userId, sellerRepository);
     }
 
-    /**
-     * This method retrieves all sellers.
-     * @return A list of all sellers.
-     */
     public List<Seller> findAllSellers() {
-        return sellerRepository.findAll();
+        return getAllUsersByRole(sellerRepository);
     }
 
     public Seller registerSeller(SellerDto sellerDto) {
