@@ -3,7 +3,6 @@ package com.grabsy.GrabsyBackend.service;
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
-import com.grabsy.GrabsyBackend.exception.UserNotFoundException;
 import com.grabsy.GrabsyBackend.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +22,9 @@ public class CustomerService extends SignedUserService{
 
     // constructor
     public CustomerService(SecurityService securityService, CustomerRepository customerRepository,
-                           CustomerRepository customerRepository1, UserValidationService userValidationService,
-                           UserIdGeneratorService userIdGeneratorService) {
+                           UserValidationService userValidationService, UserIdGeneratorService userIdGeneratorService) {
         this.securityService = securityService;
-        this.customerRepository = customerRepository1;
+        this.customerRepository = customerRepository;
         this.userValidationService = userValidationService;
         this.userIdGeneratorService = userIdGeneratorService;
     }
@@ -50,6 +48,7 @@ public class CustomerService extends SignedUserService{
         customer.setShippingAddress(customerDto.getShippingAddress());
         customer.setRegistrationDate(LocalDateTime.now());
 
+        // TODO : What if customer is not created?
         return customerRepository.save(customer);
     }
 
