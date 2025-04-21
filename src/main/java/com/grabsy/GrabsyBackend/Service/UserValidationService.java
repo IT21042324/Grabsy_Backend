@@ -64,20 +64,10 @@ public class UserValidationService {
         }
     }
 
-    /**
-     * This method checks if the email is valid.
-     * @param email
-     * @return true if the email is valid, false otherwise
-     */
     public boolean isValidEmailFormat(String email) {
         return email != null && email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
     }
 
-    /**
-     * This method checks if the email is unique.
-     * @param email
-     * @return true if the email is unique, false otherwise
-     */
     public boolean isEmailExist(UserRole userRole, String email) {
         return switch (userRole) {
             case CUSTOMER -> customerRepository.existsCustomerByEmail(email);
