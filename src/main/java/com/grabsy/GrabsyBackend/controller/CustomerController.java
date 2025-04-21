@@ -2,7 +2,6 @@ package com.grabsy.GrabsyBackend.controller;
 
 import com.grabsy.GrabsyBackend.assembler.CustomerModelAssembler;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
-import com.grabsy.GrabsyBackend.exception.CustomerNotFoundException;
 import com.grabsy.GrabsyBackend.repository.CustomerRepository;
 import com.grabsy.GrabsyBackend.service.CustomerService;
 import org.springframework.hateoas.CollectionModel;
