@@ -2,7 +2,6 @@ package com.grabsy.GrabsyBackend.controller;
 
 import com.grabsy.GrabsyBackend.assembler.CustomerModelAssembler;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
-import com.grabsy.GrabsyBackend.repository.CustomerRepository;
 import com.grabsy.GrabsyBackend.service.CustomerService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -18,26 +17,16 @@ public class CustomerController {
     private final CustomerModelAssembler customerModelAssembler;
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService, CustomerModelAssembler customerModelAssembler,
-                              CustomerRepository customerRepository) {
+    public CustomerController(CustomerService customerService, CustomerModelAssembler customerModelAssembler) {
         this.customerModelAssembler = customerModelAssembler;
         this.customerService = customerService;
     }
 
-    /**
-     * This method handles the HTTP GET request to retrieve all customers.
-     * @return A collection of customers wrapped in a CollectionModel.
-     */
     @GetMapping("/all")
     public CollectionModel<EntityModel<Customer>> findAllCustomers() {
         return customerModelAssembler.toCollectionModel(customerService.findAllCustomers());
     }
 
-    /**
-     * This method handles the HTTP GET request to retrieve a customer by their ID.
-     * @param userId The ID of the customer to retrieve.
-     * @return An EntityModel containing the customer.
-     */
     @GetMapping("{userId}")
     public EntityModel<Customer> getCustomerById(@PathVariable String userId) {
         Customer customer = customerService.getCustomerById(userId);
