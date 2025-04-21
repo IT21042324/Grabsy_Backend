@@ -3,7 +3,7 @@ package com.grabsy.GrabsyBackend.service;
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
-import com.grabsy.GrabsyBackend.exception.CustomerNotFoundException;
+import com.grabsy.GrabsyBackend.exception.UserNotFoundException;
 import com.grabsy.GrabsyBackend.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Service
-public class CustomerService {
+public class CustomerService extends SignedUserService{
     private final SecurityService securityService;
     private final CustomerRepository customerRepository;
     private final UserValidationService userValidationService;
@@ -65,11 +65,10 @@ public class CustomerService {
      * This method retrieves a customer by their ID.
      * @param userId The ID of the customer to retrieve.
      * @return The customer with the specified ID.
-     * @throws CustomerNotFoundException If the customer with the specified ID is not found.
+     * @throws UserNotFoundException If the customer with the specified ID is not found.
      */
     public Customer getCustomerById(String userId) {
-        return customerRepository.findById(userId)
-                .orElseThrow(() -> new CustomerNotFoundException(userId));
+        return getUserById(userId, customerRepository);
     }
 
     /**

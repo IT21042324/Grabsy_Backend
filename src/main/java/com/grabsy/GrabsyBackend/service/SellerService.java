@@ -3,7 +3,7 @@ package com.grabsy.GrabsyBackend.service;
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.SellerDto;
 import com.grabsy.GrabsyBackend.entity.users.Seller;
-import com.grabsy.GrabsyBackend.exception.SellerNotFoundException;
+import com.grabsy.GrabsyBackend.exception.UserNotFoundException;
 import com.grabsy.GrabsyBackend.repository.SellerRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * This class is a service for the Seller entity, it contains business logic related to sellers.
  */
 @Service
-public class SellerService {
+public class SellerService extends SignedUserService {
     private final SellerRepository sellerRepository;
     private final SecurityService securityService;
     private final UserValidationService userValidationService;
@@ -32,11 +32,10 @@ public class SellerService {
      * This method retrieves a seller by their ID.
      * @param userId The ID of the seller to retrieve.
      * @return The seller with the specified ID.
-     * @throws SellerNotFoundException If the seller with the specified ID is not found.
+     * @throws UserNotFoundException If the seller with the specified ID is not found.
      */
     public Seller getSellerById(String userId) {
-        return sellerRepository.findById(userId).
-                orElseThrow(() -> new SellerNotFoundException(userId));
+        return getUserById(userId, sellerRepository);
     }
 
     /**
