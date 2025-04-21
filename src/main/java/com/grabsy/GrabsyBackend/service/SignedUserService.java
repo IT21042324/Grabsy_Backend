@@ -29,7 +29,7 @@ public abstract class SignedUserService {
     protected <T> List<T> getAllUsersByRole(MongoRepository<T, String> repository){
         try{
             return repository.findAll();
-        } catch (Exception e){
+        } catch (DataAccessException e){
             throw new UserFetchException("Unable to fetch users from repository", e);
         }
     }
