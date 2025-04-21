@@ -1,5 +1,9 @@
 package com.grabsy.GrabsyBackend.exception;
 
+/**
+ * Custom exception class for handling user deletion errors.
+ */
+
 public class UserDeletionException extends UserException {
     public UserDeletionException(String message) {
         super(message);
