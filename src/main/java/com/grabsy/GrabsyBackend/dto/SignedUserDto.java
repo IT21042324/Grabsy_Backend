@@ -4,7 +4,7 @@ package com.grabsy.GrabsyBackend.dto;
  * This class is a Data Transfer Object (DTO) for signed users.
  */
 
-public class SignedUserDto {
+public abstract class SignedUserDto {
     private String name, email, password, phoneNumber;
 
     // getters and setters
