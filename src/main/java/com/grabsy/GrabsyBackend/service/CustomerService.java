@@ -46,7 +46,7 @@ public class CustomerService {
         customer.setName(customerDto.getName());
         customer.setEmail(customerDto.getEmail());
         customer.setPasswordHash(securityService.hashPassword(customerDto.getPassword()));
-        customer.setPhoneNumber(customer.getPhoneNumber());
+        customer.setPhoneNumber(customerDto.getPhoneNumber());
         customer.setShippingAddress(customerDto.getShippingAddress());
         customer.setRegistrationDate(LocalDateTime.now());
 
