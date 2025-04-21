@@ -1,5 +1,6 @@
 package com.grabsy.GrabsyBackend.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -8,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "userIdCounter")
 public class UserIdCounter {
+    @Id
     private String userRole;
     private int counter;
 
