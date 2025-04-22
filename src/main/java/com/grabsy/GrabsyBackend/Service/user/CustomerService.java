@@ -36,7 +36,7 @@ public class CustomerService extends SignedUserService{
         // TODO : Let user know what exactly is the issue, whether it's not enough characters and so on
         userValidationService.validatePassword(customerDto.getPassword());
         userValidationService.validatePhoneNumber(customerDto.getPhoneNumber());
-        userValidationService.validateEmail(UserRole.CUSTOMER, customerDto.getEmail());
+        userValidationService.validateEmail(customerRepository, customerDto.getEmail());
         validateShippingAddress(customerDto.getShippingAddress());
 
         // Map DTO to Customer Entity
@@ -69,7 +69,7 @@ public class CustomerService extends SignedUserService{
     /**
      * This method checks if the shipping address is valid.
      * Ensures it's not null and contains enough information to be usable.
-     * @param shippingAddress
+     * @param shippingAddress The shipping address to validate
      */
     // TODO : Check if the address is valid, not just whether it's not null
     private void validateShippingAddress(String shippingAddress) {

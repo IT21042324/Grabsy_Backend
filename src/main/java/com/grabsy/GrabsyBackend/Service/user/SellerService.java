@@ -45,7 +45,7 @@ public class SellerService extends SignedUserService {
         // validate the sellerDto
         userValidationService.validatePassword(sellerDto.getPassword());
         userValidationService.validatePhoneNumber(sellerDto.getPhoneNumber());
-        userValidationService.validateEmail(UserRole.SELLER, sellerDto.getEmail());
+        userValidationService.validateEmail(sellerRepository, sellerDto.getEmail());
 
         // Map DTO to Seller Entity
         Seller seller =  new Seller();
