@@ -1,9 +1,16 @@
 package com.grabsy.GrabsyBackend.service.user;
 
-import com.grabsy.GrabsyBackend.constant.UserRole;
+import com.grabsy.GrabsyBackend.exception.user.InvalidEmailException;
+import com.grabsy.GrabsyBackend.exception.user.InvalidPasswordException;
+import com.grabsy.GrabsyBackend.exception.user.InvalidPhoneNumberException;
+import com.grabsy.GrabsyBackend.exception.user.UserFetchException;
 import com.grabsy.GrabsyBackend.repository.user.AdminRepository;
 import com.grabsy.GrabsyBackend.repository.user.CustomerRepository;
+import com.grabsy.GrabsyBackend.repository.user.EmailRepository;
 import com.grabsy.GrabsyBackend.repository.user.SellerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,14 +19,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserValidationService {
-    private final CustomerRepository customerRepository;
-    private final SellerRepository sellerRepository;
-    private final AdminRepository adminRepository;
+    private static final Logger log = LoggerFactory.getLogger(UserValidationService.class);
 
-    public UserValidationService(CustomerRepository customerRepository, SellerRepository sellerRepository, AdminRepository adminRepository) {
-        this.customerRepository = customerRepository;
-        this.sellerRepository = sellerRepository;
-        this.adminRepository = adminRepository;
+    public UserValidationService() {
     }
 
     /**
@@ -28,8 +30,14 @@ public class UserValidationService {
      * @param phoneNumber The phone number to validate
      */
     public void validatePhoneNumber(String phoneNumber) {
-        if (phoneNumber == null || !phoneNumber.matches("^\\d{10}$")) {
-            throw new IllegalArgumentException("Phone number must be 10 digits");
+        if (phoneNumber == null) {
+            log.error("Phone number cannot be null");
+            throw new InvalidPhoneNumberException("Phone number cannot be null");
+        }
+
+        if (!phoneNumber.matches("^\\d{10}$")) {
+            log.error("Phone number must be 10 digits");
+            throw new InvalidPhoneNumberException("Phone number must be 10 digits");
         }
     }
 
@@ -40,59 +48,71 @@ public class UserValidationService {
      */
     public void validatePassword(String password) {
         if (password == null) {
-            throw new IllegalArgumentException("Password cannot be null");
+            log.error("Password cannot be null");
+            throw new InvalidPasswordException("Password cannot be null");
         }
 
         if (password.length() < 8) {
-            throw new IllegalArgumentException("Password must be at least 8 characters");
+            log.error("Password must be at least 8 characters");
+            throw new InvalidPasswordException("Password must be at least 8 characters");
         }
 
         if (!password.matches(".*[A-Z].*")) {
-            throw new IllegalArgumentException("Password must contain an uppercase letter");
+            log.error("Password must contain an uppercase letter");
+            throw new InvalidPasswordException("Password must contain an uppercase letter");
         }
 
         if (!password.matches(".*[a-z].*")) {
-            throw new IllegalArgumentException("Password must contain a lowercase letter");
+            log.error("Password must contain a lowercase letter");
+            throw new InvalidPasswordException("Password must contain a lowercase letter");
         }
 
         if (!password.matches(".*[0-9].*")) {
-            throw new IllegalArgumentException("Password must contain a number");
+            log.error("Password must contain a number");
+            throw new InvalidPasswordException("Password must contain a number");
         }
 
         if (!password.matches(".*[@#$%^&+=].*")) {
-            throw new IllegalArgumentException("Password must contain a special character");
+            log.error("Password must contain a special character");
+            throw new InvalidPasswordException("Password must contain a special character");
         }
     }
 
-    public boolean isValidEmailFormat(String email) {
-        return email != null && email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+    public void isValidEmailFormat(String email) {
+        if(email == null){
+            log.error("Email cannot be null");
+            throw new InvalidEmailException("Email cannot be null");
+        }
+
+        if(!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")){
+            log.error("Invalid email format");
+            throw new InvalidEmailException("Invalid email format");
+        }
+
     }
 
-    // TODO : Update method to take MongoRepository as a parameter instead of userRole to avoid using switch case
-    public boolean isEmailExist(UserRole userRole, String email) {
-        return switch (userRole) {
-            case CUSTOMER -> customerRepository.existsCustomerByEmail(email);
-            case SELLER -> sellerRepository.existsSellerByEmail(email);
-            case ADMIN -> adminRepository.existsAdminByEmail(email);
-            default -> throw new IllegalArgumentException("Invalid user role to check email uniqueness");
-        };
+    public <T extends EmailRepository> void isEmailExist(T repository, String email) {
+        try {
+            if(repository.existsByEmail(email)){
+                log.error("Email already exists");
+                throw new InvalidEmailException("Email already exists");
+            }
+        } catch (DataAccessException e){
+            log.error("Error checking email existence", e);
+            throw new UserFetchException("Error checking email existence", e);
+        }
     }
 
     /**
      * This method checks if the email is valid.
      * Whether it starts with one or more letters, numbers, or special characters, followed by an @ symbol and a domain.
      *
-     * @param userRole The role of the user (CUSTOMER, SELLER, ADMIN)
+     * @param repository The repository to check for email existence
      * @param email The email to validate
      */
     // TODO : Implement logic to check if it's an actual email, not just whether the syntax is correct. Let the user know what the issue is, like what is missing
-    public void validateEmail(UserRole userRole, String email) {
-        if (!isValidEmailFormat(email)) {
-            throw new IllegalArgumentException("Invalid email format");
-        }
-
-        if (isEmailExist(userRole, email)) {
-            throw new IllegalArgumentException("Email already exists");
-        }
+    public <T extends EmailRepository> void validateEmail(T repository, String email) {
+        isValidEmailFormat(email);
+        isEmailExist(repository, email);
     }
 }
