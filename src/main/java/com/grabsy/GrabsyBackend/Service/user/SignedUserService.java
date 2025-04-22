@@ -23,8 +23,7 @@ public abstract class SignedUserService {
                 log.error("User with id: {} could not be found", userId);
                 throw new UserNotFoundException("User with id: " + userId + " could not be found");
             }
-
-            repository.findById(userId)
+            return repository.findById(userId)
                     .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " could not be found"));
         } catch (DataAccessException e) {
             log.error("Error fetching user with id: {}", userId, e);
