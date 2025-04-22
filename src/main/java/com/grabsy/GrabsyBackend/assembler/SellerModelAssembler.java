@@ -1,6 +1,6 @@
 package com.grabsy.GrabsyBackend.assembler;
 
-import com.grabsy.GrabsyBackend.controller.SellerController;
+import com.grabsy.GrabsyBackend.controller.user.SellerController;
 import com.grabsy.GrabsyBackend.entity.users.Seller;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

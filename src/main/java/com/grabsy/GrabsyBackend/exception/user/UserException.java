@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.exception;
+package com.grabsy.GrabsyBackend.exception.user;
 
 /**
  * Custom exception class for handling user-related errors.

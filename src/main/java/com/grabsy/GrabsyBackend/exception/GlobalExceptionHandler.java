@@ -1,6 +1,7 @@
 package com.grabsy.GrabsyBackend.exception;
 
 
+import com.grabsy.GrabsyBackend.exception.user.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

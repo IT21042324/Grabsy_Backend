@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.exception;
+package com.grabsy.GrabsyBackend.exception.user;
 
 /**
  * This class is a custom exception that is thrown when a user is not found.
