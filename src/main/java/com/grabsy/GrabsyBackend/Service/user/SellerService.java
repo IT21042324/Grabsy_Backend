@@ -48,7 +48,7 @@ public class SellerService extends SignedUserService {
         }
     }
 
-    public void removeSeller(String userId){
+    public void removeSellerById(String userId){
         try {
             deleteUserById(userId, sellerRepository);
         } catch (Exception e) {
@@ -59,6 +59,7 @@ public class SellerService extends SignedUserService {
 
     public Seller registerSeller(SellerDto sellerDto) {
         // validate the sellerDto
+        userValidationService.validateName(sellerDto.getName());
         userValidationService.validatePassword(sellerDto.getPassword());
         userValidationService.validatePhoneNumber(sellerDto.getPhoneNumber());
         userValidationService.validateEmail(sellerRepository, sellerDto.getEmail());
