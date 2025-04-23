@@ -27,7 +27,7 @@ public class UserValidationService {
      * @param phoneNumber The phone number to validate
      */
     public void validatePhoneNumber(String phoneNumber) {
-        if (phoneNumber == null) {
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
             log.error("Phone number cannot be null");
             throw new InvalidPhoneNumberException("Phone number cannot be null");
         }
@@ -44,7 +44,7 @@ public class UserValidationService {
      * @param password The password to validate
      */
     public void validatePassword(String password) {
-        if (password == null) {
+        if (password == null || password.trim().isEmpty()) {
             log.error("Password cannot be null");
             throw new InvalidPasswordException("Password cannot be null");
         }
@@ -76,7 +76,7 @@ public class UserValidationService {
     }
 
     public void isValidEmailFormat(String email) {
-        if(email == null){
+        if(email == null || email.trim().isEmpty()){
             log.error("Email cannot be null");
             throw new InvalidEmailException("Email cannot be null");
         }
