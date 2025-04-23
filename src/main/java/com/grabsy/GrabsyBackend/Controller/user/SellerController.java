@@ -34,8 +34,10 @@ public class SellerController {
 
     @DeleteMapping("/remove/{userId}")
     public ResponseEntity<?> removeSeller(@PathVariable String userId){
-        sellerService.removeSeller(userId);
+        sellerService.removeSellerById(userId);
 
         return ResponseEntity.noContent().build();
     }
+
+    // update
 }
