@@ -3,9 +3,12 @@ package com.grabsy.GrabsyBackend.service.user;
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
+import com.grabsy.GrabsyBackend.exception.user.InvalidShippingAddressException;
 import com.grabsy.GrabsyBackend.repository.user.CustomerRepository;
 import com.grabsy.GrabsyBackend.service.SecurityService;
 import com.grabsy.GrabsyBackend.service.UserIdGeneratorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,6 +24,7 @@ public class CustomerService extends SignedUserService{
     private final CustomerRepository customerRepository;
     private final UserValidationService userValidationService;
     private final UserIdGeneratorService userIdGeneratorService;
+    private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
 
     // constructor
     public CustomerService(SecurityService securityService, CustomerRepository customerRepository,
@@ -33,11 +37,10 @@ public class CustomerService extends SignedUserService{
 
     public Customer registerCustomer(CustomerDto customerDto) {
         // validate the customerDto
-        // TODO : Let user know what exactly is the issue, whether it's not enough characters and so on
         userValidationService.validatePassword(customerDto.getPassword());
         userValidationService.validatePhoneNumber(customerDto.getPhoneNumber());
         userValidationService.validateEmail(customerRepository, customerDto.getEmail());
-        validateShippingAddress(customerDto.getShippingAddress());
+        validateShippingAddress(customerDto.getShippingAddress()); // TODO : Continue from here
 
         // Map DTO to Customer Entity
         Customer customer = new Customer();
@@ -73,8 +76,14 @@ public class CustomerService extends SignedUserService{
      */
     // TODO : Check if the address is valid, not just whether it's not null
     private void validateShippingAddress(String shippingAddress) {
-        if (shippingAddress == null || shippingAddress.trim().isEmpty() || shippingAddress.length() < 10) {
-            throw new IllegalArgumentException("Invalid shipping address");
+        if (shippingAddress == null || shippingAddress.trim().isEmpty()){
+            log.error("Shipping address cannot be null");
+            throw new InvalidShippingAddressException("Shipping address cannot be null");
+        }
+
+        if (shippingAddress.length() < 10) {
+            log.error("Shipping address must be at least 10 characters");
+            throw new InvalidShippingAddressException("Shipping address must be at least 10 characters");
         }
     }
 }
