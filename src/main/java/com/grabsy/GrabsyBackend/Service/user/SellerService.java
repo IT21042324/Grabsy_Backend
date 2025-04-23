@@ -3,9 +3,14 @@ package com.grabsy.GrabsyBackend.service.user;
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.SellerDto;
 import com.grabsy.GrabsyBackend.entity.users.Seller;
+import com.grabsy.GrabsyBackend.exception.user.UserDeletionException;
+import com.grabsy.GrabsyBackend.exception.user.UserFetchException;
+import com.grabsy.GrabsyBackend.exception.user.UserSaveException;
 import com.grabsy.GrabsyBackend.repository.user.SellerRepository;
 import com.grabsy.GrabsyBackend.service.SecurityService;
 import com.grabsy.GrabsyBackend.service.UserIdGeneratorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,6 +25,7 @@ public class SellerService extends SignedUserService {
     private final SecurityService securityService;
     private final UserValidationService userValidationService;
     private final UserIdGeneratorService userIdGeneratorService;
+    private static final Logger log = LoggerFactory.getLogger(SellerService.class);
 
     public SellerService(SellerRepository sellerRepository, SecurityService securityService,
                          UserValidationService userValidationService, UserIdGeneratorService userIdGeneratorService) {
@@ -34,11 +40,21 @@ public class SellerService extends SignedUserService {
     }
 
     public List<Seller> findAllSellers() {
-        return getAllUsersByRole(sellerRepository);
+        try {
+            return getAllUsersByRole(sellerRepository);
+        } catch (Exception e) {
+            log.error("Error fetching all sellers", e);
+            throw new UserFetchException("Unable to fetch all sellers", e);
+        }
     }
 
     public void removeSeller(String userId){
-        deleteUserById(userId, sellerRepository);
+        try {
+            deleteUserById(userId, sellerRepository);
+        } catch (Exception e) {
+            log.error("Error deleting seller with id: {}", userId, e);
+            throw new UserDeletionException("Unable to delete seller with id: " + userId, e);
+        }
     }
 
     public Seller registerSeller(SellerDto sellerDto) {
@@ -57,6 +73,11 @@ public class SellerService extends SignedUserService {
         seller.setPhoneNumber(sellerDto.getPhoneNumber());
         seller.setRegistrationDate(LocalDateTime.now());
 
-        return sellerRepository.save(seller);
+        try {
+            return sellerRepository.save(seller);
+        } catch (Exception e) {
+            log.error("Error registering seller", e);
+            throw new UserSaveException("Unable to register seller", e);
+        }
     }
 }
