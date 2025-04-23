@@ -1,9 +1,6 @@
 package com.grabsy.GrabsyBackend.service.user;
 
-import com.grabsy.GrabsyBackend.exception.user.InvalidEmailException;
-import com.grabsy.GrabsyBackend.exception.user.InvalidPasswordException;
-import com.grabsy.GrabsyBackend.exception.user.InvalidPhoneNumberException;
-import com.grabsy.GrabsyBackend.exception.user.UserFetchException;
+import com.grabsy.GrabsyBackend.exception.user.*;
 import com.grabsy.GrabsyBackend.repository.user.EmailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +16,19 @@ public class UserValidationService {
     private static final Logger log = LoggerFactory.getLogger(UserValidationService.class);
 
     public UserValidationService() {
+    }
+
+    public void validateName(String name){
+        if (name == null || name.trim().isEmpty()){
+            log.error("Name cannot be null");
+            throw new InvalidNameException("Name cannot be null");
+        }
+
+        // check if name has only letters
+        if (!name.matches("^[a-zA-Z\\s]+$")){
+            log.error("Name can only contain letters");
+            throw new InvalidNameException("Name can only contain letters");
+        }
     }
 
     /**
@@ -75,7 +85,7 @@ public class UserValidationService {
         }
     }
 
-    public void isValidEmailFormat(String email) {
+    private void isValidEmailFormat(String email) {
         if(email == null || email.trim().isEmpty()){
             log.error("Email cannot be null");
             throw new InvalidEmailException("Email cannot be null");
@@ -88,7 +98,7 @@ public class UserValidationService {
 
     }
 
-    public <T extends EmailRepository> void isEmailExist(T repository, String email) {
+    private <T extends EmailRepository> void isEmailExist(T repository, String email) {
         try {
             if(repository.existsByEmail(email)){
                 log.error("Email already exists");
