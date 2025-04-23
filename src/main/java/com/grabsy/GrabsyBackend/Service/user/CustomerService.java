@@ -41,6 +41,7 @@ public class CustomerService extends SignedUserService{
 
     public Customer registerCustomer(CustomerDto customerDto) {
         // validate the customerDto
+        userValidationService.validateName(customerDto.getName());
         userValidationService.validatePassword(customerDto.getPassword());
         userValidationService.validatePhoneNumber(customerDto.getPhoneNumber());
         userValidationService.validateEmail(customerRepository, customerDto.getEmail());
@@ -83,7 +84,7 @@ public class CustomerService extends SignedUserService{
         }
     }
 
-    public void removeCustomer(String userId){
+    public void removeCustomerById(String userId){
         try {
             deleteUserById(userId, customerRepository);
         } catch (DataAccessException e) {
