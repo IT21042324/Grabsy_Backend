@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * This class is a placeholder for the SignedUserService, it contains business logic related to signed users.
  */
 
+@Service
 public abstract class SignedUserService {
     private static final Logger log = LoggerFactory.getLogger(SignedUserService.class);
 
