@@ -4,11 +4,15 @@ import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
 import com.grabsy.GrabsyBackend.exception.user.InvalidShippingAddressException;
+import com.grabsy.GrabsyBackend.exception.user.UserDeletionException;
+import com.grabsy.GrabsyBackend.exception.user.UserFetchException;
+import com.grabsy.GrabsyBackend.exception.user.UserSaveException;
 import com.grabsy.GrabsyBackend.repository.user.CustomerRepository;
 import com.grabsy.GrabsyBackend.service.SecurityService;
 import com.grabsy.GrabsyBackend.service.UserIdGeneratorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,7 +44,7 @@ public class CustomerService extends SignedUserService{
         userValidationService.validatePassword(customerDto.getPassword());
         userValidationService.validatePhoneNumber(customerDto.getPhoneNumber());
         userValidationService.validateEmail(customerRepository, customerDto.getEmail());
-        validateShippingAddress(customerDto.getShippingAddress()); // TODO : Continue from here
+        validateShippingAddress(customerDto.getShippingAddress());
 
         // Map DTO to Customer Entity
         Customer customer = new Customer();
@@ -53,27 +57,41 @@ public class CustomerService extends SignedUserService{
         customer.setShippingAddress(customerDto.getShippingAddress());
         customer.setRegistrationDate(LocalDateTime.now());
 
-        // TODO : What if customer is not created?
-        return customerRepository.save(customer);
+        try {
+            return customerRepository.save(customer);
+        } catch (DataAccessException e) {
+            log.error("Error saving customer to the database", e);
+            throw new UserSaveException("Error saving customer to the database", e);
+        }
     }
 
     public List<Customer> findAllCustomers(){
-        return getAllUsersByRole(customerRepository);
+        try {
+            return getAllUsersByRole(customerRepository);
+        } catch (DataAccessException e) {
+            log.error("Error fetching customers from the database", e);
+            throw new UserFetchException("Error fetching customers from the database", e);
+        }
     }
 
     public Customer getCustomerById(String userId) {
-        return getUserById(userId, customerRepository);
+        try {
+            return getUserById(userId, customerRepository);
+        } catch (DataAccessException e) {
+            log.error("Error fetching customer with id: {}", userId, e);
+            throw new UserFetchException("Error fetching customer with id: " + userId, e);
+        }
     }
 
     public void removeCustomer(String userId){
-        deleteUserById(userId, customerRepository);
+        try {
+            deleteUserById(userId, customerRepository);
+        } catch (DataAccessException e) {
+            log.error("Error deleting customer with id: {}", userId, e);
+            throw new UserDeletionException("Error deleting customer with id: " + userId, e);
+        }
     }
 
-    /**
-     * This method checks if the shipping address is valid.
-     * Ensures it's not null and contains enough information to be usable.
-     * @param shippingAddress The shipping address to validate
-     */
     // TODO : Check if the address is valid, not just whether it's not null
     private void validateShippingAddress(String shippingAddress) {
         if (shippingAddress == null || shippingAddress.trim().isEmpty()){
