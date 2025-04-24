@@ -21,10 +21,6 @@ public abstract class SignedUserService {
 
     protected <T> T getUserById(String userId, MongoRepository<T, String> repository){
         try {
-            if (!repository.existsById(userId)){
-                log.error("User with id: {} could not be found", userId);
-                throw new UserNotFoundException("User with id: " + userId + " could not be found");
-            }
             return repository.findById(userId)
                     .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " could not be found"));
         } catch (DataAccessException e) {
@@ -45,8 +41,8 @@ public abstract class SignedUserService {
     protected <T> void deleteUserById(String userId, MongoRepository<T, String> repository){
         try {
             if(!repository.existsById(userId)){
-                log.error("User with id: {} could not be found", userId);
-                throw new UserNotFoundException("User with id: " + userId + " could not be found");
+                log.error("User with id: {} could not be found for deletion", userId);
+                throw new UserNotFoundException("User with id: " + userId + " could not be found for deletion");
             }
 
             repository.deleteById(userId);
