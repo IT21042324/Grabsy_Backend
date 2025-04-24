@@ -1,12 +1,10 @@
 package com.grabsy.GrabsyBackend.service.user;
 
 import com.grabsy.GrabsyBackend.constant.UserRole;
+import com.grabsy.GrabsyBackend.dto.AddCustomerShippingAddressDto;
 import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
-import com.grabsy.GrabsyBackend.exception.user.InvalidShippingAddressException;
-import com.grabsy.GrabsyBackend.exception.user.UserDeletionException;
-import com.grabsy.GrabsyBackend.exception.user.UserFetchException;
-import com.grabsy.GrabsyBackend.exception.user.UserSaveException;
+import com.grabsy.GrabsyBackend.exception.user.*;
 import com.grabsy.GrabsyBackend.repository.user.CustomerRepository;
 import com.grabsy.GrabsyBackend.service.SecurityService;
 import com.grabsy.GrabsyBackend.service.UserIdGeneratorService;
@@ -66,7 +64,7 @@ public class CustomerService extends SignedUserService{
         }
     }
 
-    public List<Customer> findAllCustomers(){
+    public List<Customer> findAll(){
         try {
             return getAllUsersByRole(customerRepository);
         } catch (DataAccessException e) {
@@ -75,7 +73,7 @@ public class CustomerService extends SignedUserService{
         }
     }
 
-    public Customer getCustomerById(String userId) {
+    public Customer getById(String userId) {
         try {
             return getUserById(userId, customerRepository);
         } catch (DataAccessException e) {
@@ -84,7 +82,7 @@ public class CustomerService extends SignedUserService{
         }
     }
 
-    public void removeCustomerById(String userId){
+    public void removeById(String userId){
         try {
             deleteUserById(userId, customerRepository);
         } catch (DataAccessException e) {
@@ -93,11 +91,34 @@ public class CustomerService extends SignedUserService{
         }
     }
 
+    public Customer updateShippingAddress(AddCustomerShippingAddressDto dto) {
+        // validation of inputs
+        validateUserId(dto.getUserId());
+        validateShippingAddress(dto.getShippingAddress());
+
+        Customer existingCustomer = getById(dto.getUserId());
+
+        if (existingCustomer.getShippingAddress() != null
+                && existingCustomer.getShippingAddress().equalsIgnoreCase(dto.getShippingAddress())){
+            log.error("New shipping address cannot be same as current shipping address");
+            throw new InvalidShippingAddressException("New shipping address cannot be same as current shipping address");
+        }
+        existingCustomer.setShippingAddress(dto.getShippingAddress());
+
+        try {
+            return customerRepository.save(existingCustomer);
+        } catch (DataAccessException e) {
+            log.error("Error saving customer shipping address", e);
+            throw new UserUpdateException("Error saving customer shipping address", e);
+        }
+    }
+
+    // helper methods
     // TODO : Check if the address is valid, not just whether it's not null
     private void validateShippingAddress(String shippingAddress) {
         if (shippingAddress == null || shippingAddress.trim().isEmpty()){
-            log.error("Shipping address cannot be null");
-            throw new InvalidShippingAddressException("Shipping address cannot be null");
+            log.error("Shipping address cannot be empty");
+            throw new InvalidShippingAddressException("Shipping address cannot be empty");
         }
 
         if (shippingAddress.length() < 10) {
@@ -105,4 +126,22 @@ public class CustomerService extends SignedUserService{
             throw new InvalidShippingAddressException("Shipping address must be at least 10 characters");
         }
     }
+
+    private void validateUserId(String userId){
+        if (userId == null || userId.trim().isEmpty()){
+            log.error("Customer Id cannot be empty");
+            throw new InvalidUserIdException("Customer Id cannot be empty");
+        }
+
+        if (userId.startsWith(UserRole.CUSTOMER.toString())){
+            log.error("Invalid user, current user is not a customer");
+            throw new InvalidUserIdException("Invalid user, current user is not a customer");
+        }
+
+        if (!customerRepository.existsById(userId)){
+            log.error("Customer with {} does not exist", userId);
+            throw new UserNotFoundException("Customer with id: " + userId + "does not exist");
+        }
+    }
+
 }
