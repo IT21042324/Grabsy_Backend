@@ -1,10 +1,10 @@
 package com.grabsy.GrabsyBackend.domain;
 
-import jdk.jfr.Unsigned;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
 
@@ -16,11 +16,19 @@ public abstract class Review {
     private String userId;
     private Byte ratings;
     @CreatedDate
+    @Field("createdAt")
     private Instant createdAt;
     @LastModifiedDate
+    @Field("updatedAt")
     private Instant updatedAt;
 
-    public Review(){}
+    protected Review(){}
+
+    protected Review(String reviewDescription, String userId, Byte ratings) {
+        this.reviewDescription = reviewDescription;
+        this.userId = userId;
+        this.ratings = ratings;
+    }
 
     public String getId() {
         return id;

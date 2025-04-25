@@ -1,6 +1,6 @@
 package com.grabsy.GrabsyBackend.service;
 
-import com.grabsy.GrabsyBackend.Repository.CustomerRepository;
+import com.grabsy.GrabsyBackend.repository.CustomerRepository;
 
 /**
  * This class is a service for the Customer entity, it contains business logic related to customers.
