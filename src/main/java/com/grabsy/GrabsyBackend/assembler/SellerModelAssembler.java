@@ -18,7 +18,7 @@ public class SellerModelAssembler extends UserModelAssembler<Seller> {
 
     /**
      * This method converts a Seller entity into an EntityModel object.
-     * @param entity
+     * @param entity The Seller entity to be converted.
      * @return An EntityModel containing the Seller entity and its links.
      */
     @Override
