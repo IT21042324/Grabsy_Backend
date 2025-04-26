@@ -1,10 +1,13 @@
 package com.grabsy.GrabsyBackend.service.user;
 
+import com.grabsy.GrabsyBackend.domain.SignedUser;
 import com.grabsy.GrabsyBackend.exception.user.*;
+import com.grabsy.GrabsyBackend.exception.user.attributes.*;
 import com.grabsy.GrabsyBackend.repository.user.EmailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -85,6 +88,26 @@ public class UserValidationService {
         }
     }
 
+    /**
+     * This method checks if the email is valid.
+     * Whether it starts with one or more letters, numbers, or special characters, followed by an @ symbol and a domain.
+     *
+     * @param repository The repository to check for email existence
+     * @param email The email to validate
+     */
+    // TODO : Implement logic to check if it's an actual email, not just whether the syntax is correct. Let the user know what the issue is, like what is missing
+    public <T extends EmailRepository> void validateEmail(T repository, String email) {
+        isValidEmailFormat(email);
+        isEmailExist(repository, email);
+    }
+
+    public void userIdNullCheck(String userId){
+        if (userId == null || userId.trim().isEmpty()){
+            log.error("User id cannot be null");
+            throw new InvalidUserIdException("User id cannot be null");
+        }
+    }
+
     private void isValidEmailFormat(String email) {
         if(email == null || email.trim().isEmpty()){
             log.error("Email cannot be null");
@@ -110,16 +133,4 @@ public class UserValidationService {
         }
     }
 
-    /**
-     * This method checks if the email is valid.
-     * Whether it starts with one or more letters, numbers, or special characters, followed by an @ symbol and a domain.
-     *
-     * @param repository The repository to check for email existence
-     * @param email The email to validate
-     */
-    // TODO : Implement logic to check if it's an actual email, not just whether the syntax is correct. Let the user know what the issue is, like what is missing
-    public <T extends EmailRepository> void validateEmail(T repository, String email) {
-        isValidEmailFormat(email);
-        isEmailExist(repository, email);
-    }
 }
