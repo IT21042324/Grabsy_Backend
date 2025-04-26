@@ -34,11 +34,11 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(DataAccessException.class)
   public ResponseEntity<String> handleDataAccessException(DataAccessException ex) {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error occurred");
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error occurred : " + ex.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<String> handleGenericException(Exception ex) {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred : " + ex.getMessage());
   }
 }
