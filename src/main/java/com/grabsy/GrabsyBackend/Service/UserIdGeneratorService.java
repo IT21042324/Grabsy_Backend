@@ -33,7 +33,7 @@ public class UserIdGeneratorService {
             throw new InvalidUserException(role + " is an invalid user role");
         }
 
-        UserIdCounter counter = null;
+        UserIdCounter counter;
         try {
             counter = userIdCounterRepository.findById(String.valueOf(role).toUpperCase())
                     .orElseGet(() -> new UserIdCounter(String.valueOf(role).toUpperCase(), 0));
