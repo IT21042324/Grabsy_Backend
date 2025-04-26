@@ -19,7 +19,6 @@ import java.util.Map;
 
 @Component
 public class UserServiceFactory {
-    private static final Logger log = LoggerFactory.getLogger(UserServiceFactory.class);
     // map for repositories
     private final Map<UserRole, SignedUserRepository<? extends SignedUser, String>> repositoryMap;
 
