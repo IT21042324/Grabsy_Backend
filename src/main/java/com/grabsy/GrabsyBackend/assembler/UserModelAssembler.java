@@ -15,7 +15,7 @@ public abstract class UserModelAssembler<T extends SignedUser> implements Repres
 
     /**
      * This method converts a collection of signed user entities into a CollectionModel object.
-     * @param entities
+     * @param entities The collection of signed user entities to be converted.
      * @return A CollectionModel containing the EntityModels of the signed user entities.
      */
     @Override
