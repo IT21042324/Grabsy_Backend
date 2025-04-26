@@ -5,6 +5,8 @@ import com.grabsy.GrabsyBackend.dto.AddCustomerShippingAddressDto;
 import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
 import com.grabsy.GrabsyBackend.exception.user.*;
+import com.grabsy.GrabsyBackend.exception.user.attributes.InvalidShippingAddressException;
+import com.grabsy.GrabsyBackend.exception.user.attributes.InvalidUserIdException;
 import com.grabsy.GrabsyBackend.repository.user.CustomerRepository;
 import com.grabsy.GrabsyBackend.service.SecurityService;
 import com.grabsy.GrabsyBackend.service.UserIdGeneratorService;
@@ -21,20 +23,24 @@ import java.util.List;
  */
 
 @Service
-public class CustomerService extends SignedUserService{
+public class CustomerService{
     private final SecurityService securityService;
     private final CustomerRepository customerRepository;
-    private final UserValidationService userValidationService;
+    private final SignedUserService signedUserService;
     private final UserIdGeneratorService userIdGeneratorService;
     private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
+    private final UserValidationService userValidationService;
 
     // constructor
+    // TODO : Decide whether to extend signeduserservice or create an instance of it to
     public CustomerService(SecurityService securityService, CustomerRepository customerRepository,
-                           UserValidationService userValidationService, UserIdGeneratorService userIdGeneratorService) {
+                           SignedUserService signedUserService, UserIdGeneratorService userIdGeneratorService,
+                           UserValidationService userValidationService) {
         this.securityService = securityService;
         this.customerRepository = customerRepository;
-        this.userValidationService = userValidationService;
+        this.signedUserService = signedUserService;
         this.userIdGeneratorService = userIdGeneratorService;
+        this.userValidationService = userValidationService;
     }
 
     public Customer registerCustomer(CustomerDto customerDto) {
@@ -48,7 +54,7 @@ public class CustomerService extends SignedUserService{
         // Map DTO to Customer Entity
         Customer customer = new Customer();
         customer.setUserRole(String.valueOf(UserRole.CUSTOMER));
-        customer.setUserId(userIdGeneratorService.generateUserId(customer.getUserRole()));
+        customer.setUserId(userIdGeneratorService.generateUserId(UserRole.CUSTOMER));
         customer.setName(customerDto.getName());
         customer.setEmail(customerDto.getEmail());
         customer.setPasswordHash(securityService.hashPassword(customerDto.getPassword()));
@@ -66,7 +72,7 @@ public class CustomerService extends SignedUserService{
 
     public List<Customer> findAll(){
         try {
-            return getAllUsersByRole(customerRepository);
+            return signedUserService.getAllUsersByRoleOrThrow(customerRepository);
         } catch (DataAccessException e) {
             log.error("Error fetching customers from the database", e);
             throw new UserFetchException("Error fetching customers from the database", e);
@@ -75,7 +81,7 @@ public class CustomerService extends SignedUserService{
 
     public Customer getById(String userId) {
         try {
-            return getUserById(userId, customerRepository);
+            return signedUserService.getUserByIdOrThrow(userId, customerRepository);
         } catch (DataAccessException e) {
             log.error("Error fetching customer with id: {}", userId, e);
             throw new UserFetchException("Error fetching customer with id: " + userId, e);
@@ -84,7 +90,7 @@ public class CustomerService extends SignedUserService{
 
     public void removeById(String userId){
         try {
-            deleteUserById(userId, customerRepository);
+            signedUserService.deleteUserByIdOrThrow(userId, customerRepository);
         } catch (DataAccessException e) {
             log.error("Error deleting customer with id: {}", userId, e);
             throw new UserDeletionException("Error deleting customer with id: " + userId, e);
@@ -127,20 +133,13 @@ public class CustomerService extends SignedUserService{
         }
     }
 
+    // TODO : Make the null check part a reusable method in uservalidation service
     private void validateUserId(String userId){
-        if (userId == null || userId.trim().isEmpty()){
-            log.error("Customer Id cannot be empty");
-            throw new InvalidUserIdException("Customer Id cannot be empty");
-        }
+        userValidationService.userIdNullCheck(userId);
 
         if (userId.startsWith(UserRole.CUSTOMER.toString())){
             log.error("Invalid user, current user is not a customer");
             throw new InvalidUserIdException("Invalid user, current user is not a customer");
-        }
-
-        if (!customerRepository.existsById(userId)){
-            log.error("Customer with {} does not exist", userId);
-            throw new UserNotFoundException("Customer with id: " + userId + "does not exist");
         }
     }
 
