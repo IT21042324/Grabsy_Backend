@@ -9,7 +9,17 @@ public class LogFormatter {
     public static String logFormattingTemplate(LinkedHashMap<String, String> messages){
         StringBuilder sb = new StringBuilder();
         messages.forEach((k, v) -> {
-            sb.append(String.format("%n" + k + ": %s", v));
+            sb.append(String.format(k + ": %s%n", v));
+        });
+        sb.append("\n");
+        return sb.toString();
+    }
+
+    public static String logFormattingTemplate(String title, LinkedHashMap<String, String> messages){
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%s%n", title));
+        messages.forEach((k, v) -> {
+            sb.append(String.format(k + ": %s%n", v));
         });
         sb.append("\n");
         return sb.toString();

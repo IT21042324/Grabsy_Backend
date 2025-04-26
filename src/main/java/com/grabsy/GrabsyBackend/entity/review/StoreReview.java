@@ -5,6 +5,9 @@ import com.grabsy.GrabsyBackend.domain.Review;
 public class StoreReview extends Review {
     private String storeId;
 
+    protected StoreReview() {
+    }
+
     public String getStoreId() {
         return storeId;
     }

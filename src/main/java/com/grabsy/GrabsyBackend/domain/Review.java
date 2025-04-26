@@ -1,5 +1,9 @@
 package com.grabsy.GrabsyBackend.domain;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,12 +12,22 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
 
+import static com.grabsy.GrabsyBackend.contant.ReviewConstant.*;
+
 @Document(collection = "reviews")
 public abstract class Review {
     @Id
     private String id;
+
+    @NotBlank(message = REVIEW_DESCRIPTION_REQUIRED)
     private String reviewDescription;
+
+    @NotBlank(message = USER_ID_REQUIRED)
     private String userId;
+
+    @NotNull(message =  RATING_REQUIRED)
+    @Min(value = 1, message = RATING_VALIDATION)
+    @Max(value = 5, message = RATING_VALIDATION)
     private Byte ratings;
     @CreatedDate
     @Field("createdAt")
