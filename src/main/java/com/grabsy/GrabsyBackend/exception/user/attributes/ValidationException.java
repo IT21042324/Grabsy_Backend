@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.exception.user;
+package com.grabsy.GrabsyBackend.exception.user.attributes;
 
 public class ValidationException extends RuntimeException {
     public ValidationException(String message) {
