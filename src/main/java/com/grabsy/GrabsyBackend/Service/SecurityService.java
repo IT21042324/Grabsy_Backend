@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityService {
-    /**
-     *
-     * @param password
-     * @return hashed password
-     */
     public String hashPassword(String password) {
         return BCrypt.withDefaults().hashToString(12, password.toCharArray());
+    }
+
+    public boolean verifyPassword(String plainPassword, String hashedPassword) {
+        return BCrypt.verifyer().verify(plainPassword.toCharArray(), hashedPassword).verified;
     }
 }
