@@ -1,11 +1,17 @@
 package com.grabsy.GrabsyBackend.service;
 
+import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.entity.UserIdCounter;
+import com.grabsy.GrabsyBackend.exception.user.UserIdGeneratorException;
 import com.grabsy.GrabsyBackend.repository.UserIdCounterRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserIdGeneratorService {
+    private static final Logger log = LoggerFactory.getLogger(UserIdGeneratorService.class);
     private final UserIdCounterRepository userIdCounterRepository;
 
     public UserIdGeneratorService(UserIdCounterRepository userIdCounterRepository){
@@ -18,14 +24,26 @@ public class UserIdGeneratorService {
      * @param role the role of the user
      * @return a new user id
      */
-    public synchronized String generateUserId(String role){
-        UserIdCounter counter = userIdCounterRepository.findById(role.toUpperCase())
-                .orElseGet(() -> new UserIdCounter(role.toUpperCase(), 0));
+    public synchronized String generateUserId(UserRole role){
+        UserIdCounter counter = null;
+        try {
+            counter = userIdCounterRepository.findById(String.valueOf(role).toUpperCase())
+                    .orElseGet(() -> new UserIdCounter(String.valueOf(role).toUpperCase(), 0));
+        } catch (DataAccessException e) {
+            log.error("Error fetching user ID counter for role: {}", role, e);
+            throw new UserIdGeneratorException("Database operation failed while fetching user ID counter", e);
+        }
 
-        int newCounterValue = counter.getCounter() + 1;
-        counter.setCounter(newCounterValue);
-        userIdCounterRepository.save(counter);
 
-        return role.toUpperCase().charAt(0) + String.format("%03d", newCounterValue);
+        try {
+            int newCounterValue = counter.getCounter() + 1;
+            counter.setCounter(newCounterValue);
+            userIdCounterRepository.save(counter);
+
+            return String.valueOf(role).toUpperCase().charAt(0) + String.format("%03d", newCounterValue);
+        } catch (DataAccessException e) {
+            log.error("Error generating user ID for role: {}", role, e);
+            throw new UserIdGeneratorException("Database operation failed while generating user ID", e);
+        }
     }
 }
