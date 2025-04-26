@@ -1,15 +1,12 @@
 package com.grabsy.GrabsyBackend.controller.user;
 
 import com.grabsy.GrabsyBackend.assembler.CustomerModelAssembler;
-import com.grabsy.GrabsyBackend.domain.SignedUser;
 import com.grabsy.GrabsyBackend.dto.AddCustomerShippingAddressDto;
-import com.grabsy.GrabsyBackend.dto.UpdateUserPasswordDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
 import com.grabsy.GrabsyBackend.service.user.CustomerService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

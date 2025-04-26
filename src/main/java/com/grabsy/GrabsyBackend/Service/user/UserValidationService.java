@@ -1,13 +1,11 @@
 package com.grabsy.GrabsyBackend.service.user;
 
-import com.grabsy.GrabsyBackend.domain.SignedUser;
 import com.grabsy.GrabsyBackend.exception.user.*;
 import com.grabsy.GrabsyBackend.exception.user.attributes.*;
 import com.grabsy.GrabsyBackend.repository.user.EmailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
 /**
