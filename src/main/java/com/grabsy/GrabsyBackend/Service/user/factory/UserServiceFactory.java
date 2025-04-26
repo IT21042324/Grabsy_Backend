@@ -10,8 +10,6 @@ import com.grabsy.GrabsyBackend.repository.user.AdminRepository;
 import com.grabsy.GrabsyBackend.repository.user.CustomerRepository;
 import com.grabsy.GrabsyBackend.repository.user.SellerRepository;
 import com.grabsy.GrabsyBackend.repository.user.SignedUserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.EnumMap;
