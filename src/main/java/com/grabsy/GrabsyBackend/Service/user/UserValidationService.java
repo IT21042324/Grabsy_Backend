@@ -1,7 +1,7 @@
 package com.grabsy.GrabsyBackend.service.user;
 
 import com.grabsy.GrabsyBackend.exception.user.*;
-import com.grabsy.GrabsyBackend.exception.user.attributes.*;
+import com.grabsy.GrabsyBackend.exception.user.attribute.*;
 import com.grabsy.GrabsyBackend.repository.user.EmailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -7,7 +7,7 @@ import com.grabsy.GrabsyBackend.exception.user.UserDeletionException;
 import com.grabsy.GrabsyBackend.exception.user.UserFetchException;
 import com.grabsy.GrabsyBackend.exception.user.UserNotFoundException;
 import com.grabsy.GrabsyBackend.exception.user.UserUpdateException;
-import com.grabsy.GrabsyBackend.exception.user.attributes.InvalidPasswordException;
+import com.grabsy.GrabsyBackend.exception.user.attribute.InvalidPasswordException;
 import com.grabsy.GrabsyBackend.service.SecurityService;
 import com.grabsy.GrabsyBackend.service.user.factory.UserServiceFactory;
 import org.slf4j.Logger;
