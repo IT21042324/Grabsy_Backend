@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.exception.user.attributes;
+package com.grabsy.GrabsyBackend.exception.user.attribute;
 
 public class InvalidUserIdException extends ValidationException {
     public InvalidUserIdException(String message) {

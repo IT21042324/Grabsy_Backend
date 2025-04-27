@@ -2,7 +2,7 @@ package com.grabsy.GrabsyBackend.exception;
 
 
 import com.grabsy.GrabsyBackend.exception.user.UserException;
-import com.grabsy.GrabsyBackend.exception.user.attributes.ValidationException;
+import com.grabsy.GrabsyBackend.exception.user.attribute.ValidationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
