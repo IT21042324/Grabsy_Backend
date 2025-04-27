@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Util;
+package com.grabsy.GrabsyBackend.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

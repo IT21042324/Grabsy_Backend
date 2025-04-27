@@ -1,6 +1,6 @@
 package com.grabsy.GrabsyBackend.Middleware.Interceptor;
 
-import com.grabsy.GrabsyBackend.Util.LogFormatter;
+import com.grabsy.GrabsyBackend.util.LogFormatter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.time.Instant;
 
 public class RequestLoggingInterceptor implements HandlerInterceptor {
     private final Logger log= LoggerFactory.getLogger(this.getClass());

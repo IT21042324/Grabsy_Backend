@@ -1,6 +1,6 @@
 package com.grabsy.GrabsyBackend.model;
 
-import com.grabsy.GrabsyBackend.Util.LogFormatter;
+import com.grabsy.GrabsyBackend.util.LogFormatter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.method.HandlerMethod;
 

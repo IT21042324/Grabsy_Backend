@@ -4,7 +4,7 @@ import com.grabsy.GrabsyBackend.controller.ProductController;
 import com.grabsy.GrabsyBackend.entity.Product;
 import com.grabsy.GrabsyBackend.exception.ProductNotFoundException;
 import com.grabsy.GrabsyBackend.repository.ProductRepository;
-import com.grabsy.GrabsyBackend.Util.BeanReflectionUtil;
+import com.grabsy.GrabsyBackend.util.BeanReflectionUtil;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;

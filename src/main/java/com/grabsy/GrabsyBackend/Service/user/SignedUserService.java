@@ -1,6 +1,6 @@
 package com.grabsy.GrabsyBackend.service.user;
 
-import com.grabsy.GrabsyBackend.Util.RepositoryUtils;
+import com.grabsy.GrabsyBackend.util.RepositoryUtils;
 import com.grabsy.GrabsyBackend.domain.SignedUser;
 import com.grabsy.GrabsyBackend.dto.UpdateUserPasswordDto;
 import com.grabsy.GrabsyBackend.exception.user.UserDeletionException;

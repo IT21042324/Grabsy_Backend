@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Util;
+package com.grabsy.GrabsyBackend.util;
 
 import java.util.Arrays;
 import java.util.Optional;
