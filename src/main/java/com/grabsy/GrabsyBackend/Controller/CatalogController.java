@@ -14,7 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/catalog")
 public class CatalogController {
-    private ProductService productService;
+    private final ProductService productService;
 
     public CatalogController(ProductService productService) {
         this.productService = productService;
