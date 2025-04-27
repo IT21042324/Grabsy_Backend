@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.controller;
+package com.grabsy.GrabsyBackend.controller.user;
 
 import com.grabsy.GrabsyBackend.assembler.AdminModelAssembler;
 import com.grabsy.GrabsyBackend.entity.users.Admin;
