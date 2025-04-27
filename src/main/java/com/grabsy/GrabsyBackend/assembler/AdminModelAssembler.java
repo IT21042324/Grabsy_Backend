@@ -1,6 +1,6 @@
 package com.grabsy.GrabsyBackend.assembler;
 
-import com.grabsy.GrabsyBackend.controller.AdminController;
+import com.grabsy.GrabsyBackend.controller.user.AdminController;
 import com.grabsy.GrabsyBackend.entity.users.Admin;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
