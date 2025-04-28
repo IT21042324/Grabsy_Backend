@@ -52,4 +52,6 @@ public class CustomerController {
 
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
+
+    // TODO : Manage Payment Cards (add/update/remove)
 }
