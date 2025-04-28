@@ -1,5 +1,8 @@
 package com.grabsy.GrabsyBackend.service.user;
 
+import com.grabsy.GrabsyBackend.constant.UserRole;
+import com.grabsy.GrabsyBackend.dto.UpdateUserPasswordDto;
+import com.grabsy.GrabsyBackend.dto.UpdateUserPhoneNumberDto;
 import com.grabsy.GrabsyBackend.exception.user.*;
 import com.grabsy.GrabsyBackend.exception.user.attribute.*;
 import com.grabsy.GrabsyBackend.repository.user.EmailRepository;
@@ -7,6 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.util.EnumSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This class is a service for user validation, it contains methods to validate user input.
@@ -19,6 +26,7 @@ public class UserValidationService {
     public UserValidationService() {
     }
 
+    // user attribute validation methods
     public void validateName(String name){
         if (name == null || name.trim().isEmpty()){
             log.error("Name cannot be null");
@@ -106,6 +114,76 @@ public class UserValidationService {
         }
     }
 
+    public void validateUserRole(UserRole role){
+        if (role == null){
+            log.error("User role cannot be null");
+            throw new InvalidUserException("User role cannot be null");
+        }
+
+        if (!EnumSet.allOf(UserRole.class).contains(role)){
+            log.error("Invalid user role : {}", role);
+            throw new InvalidUserException(role + " is an invalid user role");
+        }
+    }
+
+    public void validateUserId(String userId){
+        userIdNullCheck(userId);
+
+        // TODO : Modify method so that this is not hardcoded, as user base grows, the userId might exceed length 4
+        if (userId.length() != 4){
+            log.error("User id must be of length 4");
+            throw new InvalidUserIdException("User id must be of length 4");
+        }
+
+        // TODO : Modify method so that this is not hardcoded, as user base grows, the userId might exceed length 4
+        if (!userId.matches("^[A-Za-z]\\d{3}$")){
+            log.error("User id must start with a letter and followed by 3 digits");
+            throw new InvalidUserIdException("User id must start with a letter and followed by 3 digits");
+        }
+
+        // this character must match one of the 1st characters of the user roles
+        // Extract the first characters of all user roles
+        Set<Character> validFirstCharacters = EnumSet.allOf(UserRole.class).stream()
+                .map(role -> role.name().charAt(0))
+                .collect(Collectors.toSet());
+
+        // Check if the userId starts with a valid character
+        if (!validFirstCharacters.contains(userId.charAt(0))) {
+            log.error("User id must start with one of the valid role characters: {}", validFirstCharacters);
+            throw new InvalidUserIdException("User id must start with one of the valid role characters: " + validFirstCharacters);
+        }
+    }
+
+    // dto validation methods
+    public void validateUpdateUserPasswordDto(UpdateUserPasswordDto dto) {
+        if (dto == null) {
+            log.error("UpdateUserPasswordDto cannot be null");
+            throw new IllegalArgumentException("UpdateUserPasswordDto cannot be null");
+        }
+
+        validateUserId(dto.getUserId());
+        validateUserRole(dto.getUserRole());
+        validatePassword(dto.getNewPassword());
+        validatePassword(dto.getRetypedNewPassword());
+
+        if (!dto.getNewPassword().equals(dto.getRetypedNewPassword())) {
+            log.error("New password and retyped new password do not match");
+            throw new InvalidPasswordException("New password and retyped new password do not match");
+        }
+    }
+
+    public void validateUpdateUserPhoneNumberDto(UpdateUserPhoneNumberDto dto){
+        if (dto == null) {
+            log.error("UpdateUserPhoneNumberDto cannot be null");
+            throw new IllegalArgumentException("UpdateUserPhoneNumberDto cannot be null");
+        }
+
+        validateUserId(dto.getUserId());
+        validateUserRole(dto.getUserRole());
+        validatePhoneNumber(dto.getNewPhoneNumber());
+    }
+
+    // helper methods
     private void isValidEmailFormat(String email) {
         if(email == null || email.trim().isEmpty()){
             log.error("Email cannot be null");
