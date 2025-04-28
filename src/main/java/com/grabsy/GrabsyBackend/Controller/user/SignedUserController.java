@@ -3,6 +3,7 @@ package com.grabsy.GrabsyBackend.controller.user;
 import com.grabsy.GrabsyBackend.assembler.UserModelAssembler;
 import com.grabsy.GrabsyBackend.domain.SignedUser;
 import com.grabsy.GrabsyBackend.dto.UpdateUserPasswordDto;
+import com.grabsy.GrabsyBackend.dto.UpdateUserPhoneNumberDto;
 import com.grabsy.GrabsyBackend.service.user.SignedUserService;
 import com.grabsy.GrabsyBackend.service.user.factory.UserServiceFactory;
 import org.springframework.hateoas.EntityModel;
@@ -34,4 +35,16 @@ public class SignedUserController {
 
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
+
+    @PatchMapping("update/phone-number")
+    public <T extends SignedUser> ResponseEntity<EntityModel<T>> updatePhoneNumber(@RequestBody UpdateUserPhoneNumberDto dto){
+        T user = signedUserService.updatePhoneNumber(dto);
+
+        UserModelAssembler<T> assembler = userServiceFactory.getModelAssembler(dto.getUserRole());
+        EntityModel<T> entityModel = assembler.toModel(user);
+
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
+
+    // TODO : update phoneNumber, login, logout
 }
