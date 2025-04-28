@@ -8,6 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import static com.grabsy.GrabsyBackend.contant.ReviewConstant.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -23,6 +25,7 @@ public class ProductReviewService implements ReviewService<ProductReview> {
         this.productReviewRepository = productReviewRepository;
     }
 
+    @Transactional
     public EntityModel<ProductReview> save(ProductReview review) {
         ProductReview newReview = productReviewRepository.save(review);
         return EntityModel.of(review, linkTo(methodOn(ProductReviewController.class).findById(newReview.getId())).withSelfRel());
@@ -96,6 +99,7 @@ public class ProductReviewService implements ReviewService<ProductReview> {
     }
 
     @Override
+    @Transactional
     public EntityModel<ProductReview> updateReview(String id, ProductReview review) {
         return productReviewRepository.findById(id).map(productReview-> {
             ProductReview finalProductToUpdate = BeanReflectionUtil.copyNonNullFields(productReview, review).
@@ -107,6 +111,7 @@ public class ProductReviewService implements ReviewService<ProductReview> {
     }
 
     @Override
+    @Transactional
     public Boolean deleteReview(String id) {
         if(!productReviewRepository.existsById(id))
             throw new ReviewNotFoundException(REVIEW_NOT_FOUND_WITH_ID + id);

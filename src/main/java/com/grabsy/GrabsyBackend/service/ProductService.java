@@ -15,6 +15,7 @@ import com.grabsy.GrabsyBackend.util.EntityToResponseMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -111,6 +112,7 @@ public class ProductService {
                 withSelfRel());
     }
 
+    @Transactional
     public EntityModel<ProductResponse> addReviewToProduct(String productId, ProductReview reviewToAdd) {
         return productRepository.findById(productId).map(product -> {
             ProductReview createdNewReview = reviewService.save(reviewToAdd).getContent();
@@ -126,6 +128,7 @@ public class ProductService {
         }).orElseThrow(() -> new ProductNotFoundException(productId));
     }
 
+    @Transactional
     public EntityModel<ProductResponse> deleteReviewFromProduct(String productId, String reviewId) {
         return productRepository.findById(productId).map(existingProduct -> {
             List<String> reviews = existingProduct.getReviews();
@@ -146,10 +149,12 @@ public class ProductService {
         }).orElseThrow(() -> new ProductNotFoundException(productId));
     }
 
+    @Transactional
     public EntityModel<ProductReview> updateReviewForProduct(String reviewId, ProductReview productReview) {
         return reviewService.updateReview(reviewId, productReview);
     }
 
+    @Transactional
     public EntityModel<ProductResponse> updateReviewForProduct(String productId, String reviewId, ProductReview productReview) {
         reviewService.updateReview(reviewId, productReview).getContent();
 
