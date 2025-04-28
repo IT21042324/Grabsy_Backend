@@ -38,12 +38,6 @@ public abstract class Review {
 
     protected Review(){}
 
-    protected Review(String reviewDescription, String userId, Byte ratings) {
-        this.reviewDescription = reviewDescription;
-        this.userId = userId;
-        this.ratings = ratings;
-    }
-
     public String getId() {
         return id;
     }

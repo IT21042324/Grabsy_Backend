@@ -1,11 +1,16 @@
 package com.grabsy.GrabsyBackend.service.review;
+import com.grabsy.GrabsyBackend.controller.ProductReviewController;
 import com.grabsy.GrabsyBackend.entity.review.ProductReview;
 import com.grabsy.GrabsyBackend.exception.ReviewNotFoundException;
 import com.grabsy.GrabsyBackend.repository.review.ProductReviewRepository;
 import com.grabsy.GrabsyBackend.util.BeanReflectionUtil;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 import static com.grabsy.GrabsyBackend.contant.ReviewConstant.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 import java.util.List;
@@ -18,12 +23,24 @@ public class ProductReviewService implements ReviewService<ProductReview> {
         this.productReviewRepository = productReviewRepository;
     }
 
-    public ProductReview save(ProductReview review) {
-        return productReviewRepository.save(review);
+    public EntityModel<ProductReview> save(ProductReview review) {
+        ProductReview newReview = productReviewRepository.save(review);
+        return EntityModel.of(review, linkTo(methodOn(ProductReviewController.class).findById(newReview.getId())).withSelfRel());
     }
 
-    public List<ProductReview> findAll(){
-        return productReviewRepository.findAll();
+    public EntityModel<ProductReview> findById(String id){
+        ProductReview review = productReviewRepository.findById(id).orElseThrow(() ->
+                new ReviewNotFoundException(REVIEW_NOT_FOUND_WITH_ID));
+
+        return EntityModel.of(review, linkTo(methodOn(ProductReviewController.class).findById(id)).withSelfRel());
+    }
+
+    public CollectionModel<EntityModel<ProductReview>> findAll(){
+        List<EntityModel<ProductReview>> allReviews = productReviewRepository.findAll().stream().map(productReview ->
+                EntityModel.of(productReview, linkTo(methodOn(ProductReviewController.class).
+                        findById(productReview.getId())).withSelfRel())).toList();
+
+        return CollectionModel.of(allReviews, linkTo(methodOn(ProductReviewController.class).findAll()).withSelfRel());
     }
 
     @Override
@@ -79,12 +96,13 @@ public class ProductReviewService implements ReviewService<ProductReview> {
     }
 
     @Override
-    public ProductReview updateReview(String id, ProductReview review) {
+    public EntityModel<ProductReview> updateReview(String id, ProductReview review) {
         return productReviewRepository.findById(id).map(productReview-> {
             ProductReview finalProductToUpdate = BeanReflectionUtil.copyNonNullFields(productReview, review).
                     orElseThrow();
 
-            return productReviewRepository.save(finalProductToUpdate);
+            ProductReview save = productReviewRepository.save(finalProductToUpdate);
+            return EntityModel.of(save, linkTo(methodOn(ProductReviewController.class).findById(save.getId())).withSelfRel());
         }).orElseThrow(() -> new ReviewNotFoundException(REVIEW_NOT_FOUND_WITH_ID + id));
     }
 

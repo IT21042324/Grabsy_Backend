@@ -5,12 +5,14 @@ import com.grabsy.GrabsyBackend.service.review.ProductReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/products/reviews")
+@RequestMapping("/api/reviews")
 public class ProductReviewController {
     private final ProductReviewService service;
 
@@ -19,17 +21,22 @@ public class ProductReviewController {
     }
 
     @GetMapping
-    public List<ProductReview> findAll() {
+    public CollectionModel<EntityModel<ProductReview>> findAll() {
         return service.findAll();
     }
 
+    @GetMapping("/{id}")
+    public EntityModel<ProductReview> findById(@PathVariable String id) {
+        return service.findById(id);
+    }
+
     @PostMapping
-    public ProductReview save(@Valid @RequestBody ProductReview productReview) {
+    public EntityModel<ProductReview> save(@Valid @RequestBody ProductReview productReview) {
         return service.save(productReview);
     }
 
-    @GetMapping("/{id}")
-    public List<ProductReview> getAllReviewsOfOneUser(@PathVariable(name = "id") String userId) {
+    @GetMapping("/user/{userId}")
+    public List<ProductReview> getAllReviewsOfOneUser(@PathVariable String userId) {
         return service.getAllReviewsOfOneUser(userId);
     }
 
@@ -46,7 +53,7 @@ public class ProductReviewController {
     }
 
     @PatchMapping("/{id}")
-    public ProductReview updateReview(@PathVariable String id, @Valid @RequestBody ProductReview review) {
+    public EntityModel<ProductReview> updateReview(@PathVariable String id, @Valid @RequestBody ProductReview review) {
         return service.updateReview(id, review);
     }
 

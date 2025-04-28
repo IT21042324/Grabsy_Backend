@@ -1,7 +1,7 @@
 package com.grabsy.GrabsyBackend.entity.user;
 
 import com.grabsy.GrabsyBackend.domain.SignedUser;
-import com.grabsy.GrabsyBackend.model.Card;
+import com.grabsy.GrabsyBackend.dto.Card;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;

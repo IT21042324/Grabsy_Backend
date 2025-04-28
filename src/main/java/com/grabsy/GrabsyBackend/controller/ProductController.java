@@ -1,7 +1,10 @@
 package com.grabsy.GrabsyBackend.controller;
 
 import com.grabsy.GrabsyBackend.entity.Product;
+import com.grabsy.GrabsyBackend.entity.review.ProductReview;
+import com.grabsy.GrabsyBackend.response.ProductResponse;
 import com.grabsy.GrabsyBackend.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -65,5 +68,35 @@ public class ProductController {
     public ResponseEntity<Boolean> deleteById(@PathVariable String id) {
         boolean isItemDeleted = service.deleteById(id);
         return isItemDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/reviews/{id}")
+    public CollectionModel<EntityModel<String>> findAllReviewsByProductId(@PathVariable String id) {
+        return service.findAllReviewsByProductId(id);
+    }
+
+    @PostMapping("/reviews/{id}")
+    public ResponseEntity<EntityModel<ProductResponse>>
+    addReviewToProduct(@PathVariable String id, @Valid @RequestBody ProductReview reviewToAdd) {
+        return ResponseEntity.ok(service.addReviewToProduct(id, reviewToAdd));
+    }
+
+    @DeleteMapping("/{productId}/reviews/{reviewId}")
+    public EntityModel<ProductResponse> deleteReviewFromProduct(@PathVariable String productId,
+                                                                @PathVariable String reviewId) {
+        return service.deleteReviewFromProduct(productId, reviewId);
+    }
+
+    @PatchMapping("/{productId}/reviews/update/{reviewId}")
+    public EntityModel<ProductResponse> updateReviewForProduct(@PathVariable String productId,
+                                                               @PathVariable String reviewId,
+                                                               @Valid @RequestBody ProductReview review) {
+        return service.updateReviewForProduct(productId, reviewId, review);
+    }
+
+    @PatchMapping("/reviews/update/{reviewId}")
+    public EntityModel<ProductReview> updateReviewForProduct(@PathVariable String reviewId,
+                                                             @Valid @RequestBody ProductReview review) {
+        return service.updateReviewForProduct(reviewId, review);
     }
 }

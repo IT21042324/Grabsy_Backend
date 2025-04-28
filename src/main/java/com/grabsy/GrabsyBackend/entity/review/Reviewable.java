@@ -1,25 +1,32 @@
 package com.grabsy.GrabsyBackend.entity.review;
 
-import com.grabsy.GrabsyBackend.domain.Review;
-
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface Reviewable {
-    List<Review> getReviews();
-    void setReviews(List<Review> reviewList);
+    List<String> getReviews();
+
+    void setReviews(List<String> reviewList);
+
     void setAverageRating(byte averageRating);
 
-    default void calculateAverageRating() {
-        List<Review> reviewList = getReviews();
-        byte averageRating = 0;
-        long rating = 0L;
+    Byte getAverageRating();
 
-        if (reviewList != null && !reviewList.isEmpty()){
-            for (Review review : reviewList)
-                rating += review.getRatings();
+    default void addReviews(String newReview) {
+        List<String> existingReviews = getReviews();
+        existingReviews.add(newReview);
+        setReviews(existingReviews);
+    }
 
-            averageRating = (byte) (rating / reviewList.size());
-        }
-        setAverageRating(averageRating);
+    default void addReviews(List<String> newReviews) {
+        List<String> existingReviews = getReviews();
+        List<String> combinedListOfReviews = Stream.concat(existingReviews.stream(), newReviews.stream()).toList();
+        setReviews(combinedListOfReviews);
+    }
+
+    default void updateAverageRating(int newRating) {
+        int existingTotalNumberOfReviews = getReviews() != null ? getReviews().size() : 0;
+        setAverageRating((byte) (newRating + (getAverageRating() * existingTotalNumberOfReviews) /
+                existingTotalNumberOfReviews + 1));
     }
 }

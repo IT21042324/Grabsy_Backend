@@ -1,9 +1,9 @@
 package com.grabsy.GrabsyBackend.service.review;
 
-import com.grabsy.GrabsyBackend.entity.review.ProductReview;
 import com.grabsy.GrabsyBackend.entity.review.StoreReview;
 import com.grabsy.GrabsyBackend.repository.review.StoreReviewRepository;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.EntityModel;
 
 import java.util.List;
 
@@ -33,12 +33,12 @@ public class StoreReviewService implements ReviewService<StoreReview> {
     }
 
     @Override
-    public List<ProductReview> findReviewsMadeByUserToReviewable(String userId, String reviewableId, String sortingProperty, Sort.Direction direction) {
+    public List<StoreReview> findReviewsMadeByUserToReviewable(String userId, String reviewableId, String sortingProperty, Sort.Direction direction) {
         return null;
     }
 
     @Override
-    public StoreReview updateReview(String id, StoreReview review) {
+    public EntityModel<StoreReview> updateReview(String id, StoreReview review) {
         return null;
     }
 

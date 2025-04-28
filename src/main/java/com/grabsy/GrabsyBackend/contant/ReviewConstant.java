@@ -21,7 +21,9 @@ public final class ReviewConstant {
     public static final String RATING_VALIDATION = "Ratings Must be Greater Than 0 And Less Than or Equal to 5";
     public static final String USER_ID_REQUIRED = "User Id must not be null.";
     public static final String NO_REVIEWS_FOR_USER = "No reviews found for the given user.";
+    public static final String NO_REVIEWS_FOR_REVIEW_ID = "No reviews found for the given id.";
     public static final String REVIEW_NOT_FOUND_WITH_ID = "Review not found with id: ";
+    public static final String REVIEW_DOES_NOT_EXIST_FOR_GIVEN_ID = "Review does not exist for id: ";
     public static final String REVIEW_NOT_FOUND = "Review not found.";
 
 }

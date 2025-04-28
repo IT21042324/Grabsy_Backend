@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.model;
+package com.grabsy.GrabsyBackend.dto;
 
 import com.grabsy.GrabsyBackend.contant.common.LogConstant;
 import com.grabsy.GrabsyBackend.util.LogFormatter;

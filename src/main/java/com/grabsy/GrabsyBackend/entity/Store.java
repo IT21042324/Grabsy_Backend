@@ -10,7 +10,7 @@ public class Store implements Reviewable {
     @Id
     private String id;
     private String sellerId;
-    private List<Review> reviews;
+    private List<String> reviews;
 
     private Byte averageRating;
 
@@ -34,15 +34,16 @@ public class Store implements Reviewable {
     }
 
     @Override
-    public List<Review> getReviews() {
+    public List<String> getReviews() {
         return this.reviews;
     }
 
     @Override
-    public void setReviews(List<Review> reviewList) {
+    public void setReviews(List<String> reviewList) {
         this.reviews = reviewList;
     }
 
+    @Override
     public Byte getAverageRating() {
         return averageRating;
     }

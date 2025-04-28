@@ -1,13 +1,12 @@
-package com.grabsy.GrabsyBackend.entity;
-import com.grabsy.GrabsyBackend.entity.review.Reviewable;
-import com.grabsy.GrabsyBackend.domain.Review;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+package com.grabsy.GrabsyBackend.response;
+
+import com.grabsy.GrabsyBackend.entity.*;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+
 import java.util.List;
 
-@Document(collection = "products")
-public class Product implements Reviewable {
-    @Id
+public class ProductResponse {
     private String id;
     private String name;
     private String description;
@@ -17,13 +16,27 @@ public class Product implements Reviewable {
     private ProductCategory category;
     private Store store;
     private Long itemsSold;
-    private List<String> reviews;
+
+    private List<EntityModel<ResponseId>> reviews;
     private Byte averageRating = 0;
     private Offer offer;
 
     private Byte Ratings;
 
-    public Product() {
+    public ProductResponse() {
+    }
+    public ProductResponse(Product product) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.description = product.getDescription();
+        this.price = product.getPrice();
+        this.rendition = product.getRendition();
+        this.itemCount = product.getItemCount();
+        this.category = product.getCategory();
+        this.store = product.getStore();
+        this.itemsSold = product.getItemsSold();
+        this.averageRating = product.getAverageRating();
+        this.offer = product.getOffer();
     }
 
     public void setId(String id) {
@@ -86,22 +99,18 @@ public class Product implements Reviewable {
         this.store = store;
     }
 
-    @Override
-    public List<String> getReviews() {
+    public List<EntityModel<ResponseId>> getReviews() {
         return this.reviews;
     }
 
-    @Override
-    public void setReviews(List<String> reviewList) {
+    public void setReviews(List<EntityModel<ResponseId>> reviewList) {
         this.reviews = reviewList;
     }
 
-    @Override
     public Byte getAverageRating(){
         return this.averageRating;
     }
 
-    @Override
     public void setAverageRating(byte averageRating) {
         this.averageRating = averageRating;
     }
@@ -128,7 +137,7 @@ public class Product implements Reviewable {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "ProductResponse{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

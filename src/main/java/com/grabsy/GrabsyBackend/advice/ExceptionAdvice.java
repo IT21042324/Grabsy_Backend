@@ -3,7 +3,7 @@ package com.grabsy.GrabsyBackend.advice;
 import com.grabsy.GrabsyBackend.contant.common.ErrorConstant;
 import com.grabsy.GrabsyBackend.exception.ProductNotFoundException;
 import com.grabsy.GrabsyBackend.exception.ReviewNotFoundException;
-import com.grabsy.GrabsyBackend.model.ErrorMessage;
+import com.grabsy.GrabsyBackend.dto.ErrorMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.HandlerMethod;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class ExceptionAdvice {

@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.model;
+package com.grabsy.GrabsyBackend.dto;
 
 import org.springframework.data.annotation.Id;
 
