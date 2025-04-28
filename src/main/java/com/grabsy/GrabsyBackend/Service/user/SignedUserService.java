@@ -1,5 +1,7 @@
 package com.grabsy.GrabsyBackend.service.user;
 
+import com.grabsy.GrabsyBackend.dto.UpdateUserPhoneNumberDto;
+import com.grabsy.GrabsyBackend.exception.user.attribute.InvalidPhoneNumberException;
 import com.grabsy.GrabsyBackend.util.RepositoryUtils;
 import com.grabsy.GrabsyBackend.domain.SignedUser;
 import com.grabsy.GrabsyBackend.dto.UpdateUserPasswordDto;
@@ -38,10 +40,10 @@ public class SignedUserService {
     protected <T> T getUserByIdOrThrow(String userId, MongoRepository<T, String> repository){
         try {
             return repository.findById(userId)
-                    .orElseThrow(() -> new UserNotFoundException("Seller with id: " + userId + " could not be found"));
+                    .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " could not be found"));
         } catch (DataAccessException e) {
-            log.error("Error fetching seller with id: {}", userId, e);
-            throw new UserFetchException("Seller with id: "  + userId + " could not be fetched", e);
+            log.error("Error fetching user with id: {}", userId, e);
+            throw new UserFetchException("User with id: "  + userId + " could not be fetched", e);
         }
     }
 
@@ -57,31 +59,20 @@ public class SignedUserService {
     protected <T> void deleteUserByIdOrThrow(String userId, MongoRepository<T, String> repository){
         try {
             if(!repository.existsById(userId)){
-                log.error("Seller with id: {} could not be found for deletion", userId);
-                throw new UserNotFoundException("Seller with id: " + userId + " could not be found for deletion");
+                log.error("User with id: {} could not be found for deletion", userId);
+                throw new UserNotFoundException("User with id: " + userId + " could not be found for deletion");
             }
 
             repository.deleteById(userId);
         } catch (DataAccessException e) {
-            log.error("Error deleting seller with id: {}", userId, e);
-            throw new UserDeletionException("Seller with id : " + userId + " could not be deleted", e);
+            log.error("Error deleting user with id: {}", userId, e);
+            throw new UserDeletionException("User with id : " + userId + " could not be deleted", e);
         }
     }
 
     public <T extends SignedUser> T updatePassword(UpdateUserPasswordDto dto) {
-
-        // validate new password
-        userValidationService.validatePassword(dto.getNewPassword());
-        userValidationService.validatePassword(dto.getRetypedNewPassword());
-
-        // userId validation
-        userValidationService.userIdNullCheck(dto.getUserId());
-
-        // check if new and retyped password match
-        if (!dto.getNewPassword().equals(dto.getRetypedNewPassword())){
-            log.error("New password does not match retyped password");
-            throw new InvalidPasswordException("New password does not match retyped password");
-        }
+        // validate input data
+        userValidationService.validateUpdateUserPasswordDto(dto);
 
         // find repository
         MongoRepository<T, String> repository = userServiceFactory.getRepository(dto.getUserRole());
@@ -115,6 +106,35 @@ public class SignedUserService {
                 () -> repository.save(user),
                 "Error updating password of user with ID : " + user.getUserId(),
                 new UserUpdateException("Error updating password of user with ID : " + user.getUserId())
+        );
+    }
+
+    public <T extends SignedUser> T updatePhoneNumber(UpdateUserPhoneNumberDto dto) {
+        // validate input data
+        userValidationService.validateUpdateUserPhoneNumberDto(dto);
+
+        // get user
+        MongoRepository<T, String> repository = userServiceFactory.getRepository(dto.getUserRole());
+        T user = getUserByIdOrThrow(dto.getUserId(), repository);
+
+        if (user.getPhoneNumber() == null){
+            log.error("User with ID: {} does not have a phone number", dto.getUserId());
+            throw new InvalidPhoneNumberException("User with ID: " + dto.getUserId() + " does not have a phone number");
+        }
+
+        if (user.getPhoneNumber().equals(dto.getNewPhoneNumber())){
+            log.error("New phone number cannot match old phone number");
+            throw new InvalidPhoneNumberException("New phone number cannot match old phone number");
+        }
+
+        // update details
+        user.setPhoneNumber(dto.getNewPhoneNumber());
+
+        // return user
+        return RepositoryUtils.saveEntityWithExceptionHandling(
+                () -> repository.save(user),
+                "Error updating phoneNumber of user with ID : " + user.getUserId(),
+                new UserUpdateException("Error updating phoneNumber of user with ID : " + user.getUserId())
         );
     }
 }
