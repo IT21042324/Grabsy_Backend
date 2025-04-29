@@ -14,7 +14,7 @@ public class ProductResponse {
     private Rendition rendition;
     private Long itemCount;
     private ProductCategory category;
-    private Store store;
+    private String store;
     private Long itemsSold;
 
     private List<EntityModel<ResponseId>> reviews;
@@ -91,11 +91,11 @@ public class ProductResponse {
         this.category = category;
     }
 
-    public Store getStore() {
+    public String getStore() {
         return store;
     }
 
-    public void setStore(Store store) {
+    public void setStore(String store) {
         this.store = store;
     }
 

@@ -15,7 +15,7 @@ public class Product implements Reviewable {
     private Rendition rendition;
     private Long itemCount;
     private ProductCategory category;
-    private Store store;
+    private String store;
     private Long itemsSold;
     private List<String> reviews;
     private Byte averageRating = 0;
@@ -78,11 +78,11 @@ public class Product implements Reviewable {
         this.category = category;
     }
 
-    public Store getStore() {
+    public String getStore() {
         return store;
     }
 
-    public void setStore(Store store) {
+    public void setStore(String store) {
         this.store = store;
     }
 

@@ -25,12 +25,6 @@ public class ProductReviewService implements ReviewService<ProductReview> {
         this.productReviewRepository = productReviewRepository;
     }
 
-    @Transactional
-    public EntityModel<ProductReview> save(ProductReview review) {
-        ProductReview newReview = productReviewRepository.save(review);
-        return EntityModel.of(review, linkTo(methodOn(ProductReviewController.class).findById(newReview.getId())).withSelfRel());
-    }
-
     public EntityModel<ProductReview> findById(String id){
         ProductReview review = productReviewRepository.findById(id).orElseThrow(() ->
                 new ReviewNotFoundException(REVIEW_NOT_FOUND_WITH_ID));
@@ -44,6 +38,12 @@ public class ProductReviewService implements ReviewService<ProductReview> {
                         findById(productReview.getId())).withSelfRel())).toList();
 
         return CollectionModel.of(allReviews, linkTo(methodOn(ProductReviewController.class).findAll()).withSelfRel());
+    }
+
+    @Transactional
+    public EntityModel<ProductReview> save(ProductReview review) {
+        ProductReview newReview = productReviewRepository.save(review);
+        return EntityModel.of(review, linkTo(methodOn(ProductReviewController.class).findById(newReview.getId())).withSelfRel());
     }
 
     @Override
