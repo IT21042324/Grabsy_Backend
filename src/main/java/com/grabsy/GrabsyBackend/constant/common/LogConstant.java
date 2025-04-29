@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.contant.common;
+package com.grabsy.GrabsyBackend.constant.common;
 
 public final class LogConstant {
     public static final String LABEL_TRACE = "Trace";

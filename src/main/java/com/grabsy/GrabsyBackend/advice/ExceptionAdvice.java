@@ -1,6 +1,6 @@
 package com.grabsy.GrabsyBackend.advice;
 
-import com.grabsy.GrabsyBackend.contant.common.ErrorConstant;
+import com.grabsy.GrabsyBackend.constant.common.ErrorConstant;
 import com.grabsy.GrabsyBackend.exception.ProductNotFoundException;
 import com.grabsy.GrabsyBackend.exception.ReviewNotFoundException;
 import com.grabsy.GrabsyBackend.dto.ErrorMessage;

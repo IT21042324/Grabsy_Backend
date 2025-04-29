@@ -1,9 +1,6 @@
 package com.grabsy.GrabsyBackend.controller;
 
-import com.grabsy.GrabsyBackend.entity.review.ProductReview;
 import com.grabsy.GrabsyBackend.entity.review.StoreReview;
-import com.grabsy.GrabsyBackend.repository.review.StoreReviewRepository;
-import com.grabsy.GrabsyBackend.service.review.ProductReviewService;
 import com.grabsy.GrabsyBackend.service.review.StoreReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

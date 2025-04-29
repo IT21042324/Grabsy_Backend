@@ -1,12 +1,8 @@
 package com.grabsy.GrabsyBackend.service.review;
-import com.grabsy.GrabsyBackend.entity.review.ProductReview;
 import com.grabsy.GrabsyBackend.domain.Review;
-import com.grabsy.GrabsyBackend.entity.review.StoreReview;
 import org.springframework.data.domain.Sort;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

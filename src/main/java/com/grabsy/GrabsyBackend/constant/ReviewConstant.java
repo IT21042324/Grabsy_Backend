@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.contant;
+package com.grabsy.GrabsyBackend.constant;
 
 public final class ReviewConstant {
     public static final String DEFAULT_SORT_FIELD = "createdAt";

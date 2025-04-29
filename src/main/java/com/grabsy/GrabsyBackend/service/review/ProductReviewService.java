@@ -10,7 +10,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.grabsy.GrabsyBackend.contant.ReviewConstant.*;
+import static com.grabsy.GrabsyBackend.constant.ReviewConstant.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 

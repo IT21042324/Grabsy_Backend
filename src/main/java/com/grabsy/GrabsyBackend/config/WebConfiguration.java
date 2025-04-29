@@ -1,6 +1,6 @@
 package com.grabsy.GrabsyBackend.config;
 
-import com.grabsy.GrabsyBackend.Middleware.interceptor.RequestLoggingInterceptor;
+import com.grabsy.GrabsyBackend.middleware.interceptor.RequestLoggingInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

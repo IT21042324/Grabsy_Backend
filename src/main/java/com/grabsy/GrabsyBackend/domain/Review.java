@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
 
-import static com.grabsy.GrabsyBackend.contant.ReviewConstant.*;
+import static com.grabsy.GrabsyBackend.constant.ReviewConstant.*;
 
 @Document(collection = "reviews")
 public abstract class Review {

@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.contant.common;
+package com.grabsy.GrabsyBackend.constant.common;
 
 public final class ErrorConstant {
     public static final String EXCEPTION_OCCURRED = "Exception Occurred!!";

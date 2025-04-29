@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.contant.common;
+package com.grabsy.GrabsyBackend.constant.common;
 
 public final class AppConstant {
     public static final int DEFAULT_PAGE_SIZE = 20;

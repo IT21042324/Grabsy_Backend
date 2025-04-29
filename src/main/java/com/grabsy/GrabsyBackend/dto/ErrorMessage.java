@@ -1,6 +1,6 @@
 package com.grabsy.GrabsyBackend.dto;
 
-import com.grabsy.GrabsyBackend.contant.common.LogConstant;
+import com.grabsy.GrabsyBackend.constant.common.LogConstant;
 import com.grabsy.GrabsyBackend.util.LogFormatter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.validation.BindException;

@@ -2,7 +2,6 @@ package com.grabsy.GrabsyBackend.service.review;
 
 import com.grabsy.GrabsyBackend.controller.ProductReviewController;
 import com.grabsy.GrabsyBackend.controller.StoreReviewController;
-import com.grabsy.GrabsyBackend.entity.review.ProductReview;
 import com.grabsy.GrabsyBackend.entity.review.StoreReview;
 import com.grabsy.GrabsyBackend.exception.ReviewNotFoundException;
 import com.grabsy.GrabsyBackend.repository.review.StoreReviewRepository;
@@ -14,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.grabsy.GrabsyBackend.contant.ReviewConstant.*;
-import static com.grabsy.GrabsyBackend.contant.ReviewConstant.DEFAULT_SORT_FIELD;
+import static com.grabsy.GrabsyBackend.constant.ReviewConstant.*;
+import static com.grabsy.GrabsyBackend.constant.ReviewConstant.DEFAULT_SORT_FIELD;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 

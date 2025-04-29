@@ -8,7 +8,6 @@ import com.grabsy.GrabsyBackend.exception.ProductNotFoundException;
 import com.grabsy.GrabsyBackend.exception.ReviewNotFoundException;
 import com.grabsy.GrabsyBackend.repository.ProductRepository;
 import com.grabsy.GrabsyBackend.response.ProductResponse;
-import com.grabsy.GrabsyBackend.response.ResponseId;
 import com.grabsy.GrabsyBackend.service.review.ProductReviewService;
 import com.grabsy.GrabsyBackend.util.BeanReflectionUtil;
 import com.grabsy.GrabsyBackend.util.EntityToResponseMapper;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.grabsy.GrabsyBackend.contant.ReviewConstant.REVIEW_DOES_NOT_EXIST_FOR_GIVEN_ID;
+import static com.grabsy.GrabsyBackend.constant.ReviewConstant.REVIEW_DOES_NOT_EXIST_FOR_GIVEN_ID;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
