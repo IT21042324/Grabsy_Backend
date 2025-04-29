@@ -46,5 +46,5 @@ public class SignedUserController {
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
-    // TODO : update phoneNumber, login, logout
+    // TODO :login, logout
 }

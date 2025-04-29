@@ -131,14 +131,13 @@ public class UserValidationService {
     public void validateUserId(String userId){
         userIdNullCheck(userId);
 
-        // TODO : Modify method so that this is not hardcoded, as user base grows, the userId might exceed length 4
+        // TODO : Use of maxLength is not fool proof, the validations will fail if MAX_USER_ID_COUNTER_VALUE is changed and an old record is fetched
         int maxLength = String.valueOf(MAX_USER_ID_COUNTER_VALUE).length();
         if (userId.length() != maxLength + 1){
             log.error("User id must be of length 4");
             throw new InvalidUserIdException("User id must be of length 4");
         }
 
-        // TODO : Modify method so that this is not hardcoded, as user base grows, the userId might exceed length 4
         if (!userId.matches("^[A-Za-z]\\d{" + maxLength + "}$")){
             log.error("User id must start with a letter and followed by 3 digits");
             throw new InvalidUserIdException("User id must start with a letter and followed by 3 digits");
