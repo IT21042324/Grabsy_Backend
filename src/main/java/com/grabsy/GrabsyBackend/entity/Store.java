@@ -1,6 +1,5 @@
 package com.grabsy.GrabsyBackend.entity;
 import com.grabsy.GrabsyBackend.entity.review.Reviewable;
-import com.grabsy.GrabsyBackend.domain.Review;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
