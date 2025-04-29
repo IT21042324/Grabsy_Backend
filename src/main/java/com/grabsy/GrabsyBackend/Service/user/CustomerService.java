@@ -32,7 +32,6 @@ public class CustomerService{
     private final UserValidationService userValidationService;
 
     // constructor
-    // TODO : Decide whether to extend signeduserservice or create an instance of it to
     public CustomerService(SecurityService securityService, CustomerRepository customerRepository,
                            SignedUserService signedUserService, UserIdGeneratorService userIdGeneratorService,
                            UserValidationService userValidationService) {
@@ -133,7 +132,6 @@ public class CustomerService{
         }
     }
 
-    // TODO : Make the null check part a reusable method in uservalidation service
     private void validateUserId(String userId){
         userValidationService.userIdNullCheck(userId);
 
