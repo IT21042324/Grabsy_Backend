@@ -15,6 +15,8 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.grabsy.GrabsyBackend.constant.ApplicationConstants.MAX_USER_ID_COUNTER_VALUE;
+
 /**
  * This class is a service for user validation, it contains methods to validate user input.
  */
@@ -130,13 +132,14 @@ public class UserValidationService {
         userIdNullCheck(userId);
 
         // TODO : Modify method so that this is not hardcoded, as user base grows, the userId might exceed length 4
-        if (userId.length() != 4){
+        int maxLength = String.valueOf(MAX_USER_ID_COUNTER_VALUE).length();
+        if (userId.length() != maxLength + 1){
             log.error("User id must be of length 4");
             throw new InvalidUserIdException("User id must be of length 4");
         }
 
         // TODO : Modify method so that this is not hardcoded, as user base grows, the userId might exceed length 4
-        if (!userId.matches("^[A-Za-z]\\d{3}$")){
+        if (!userId.matches("^[A-Za-z]\\d{" + maxLength + "}$")){
             log.error("User id must start with a letter and followed by 3 digits");
             throw new InvalidUserIdException("User id must start with a letter and followed by 3 digits");
         }
