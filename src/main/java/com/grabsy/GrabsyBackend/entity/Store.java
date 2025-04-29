@@ -11,7 +11,6 @@ public class Store implements Reviewable {
     private String id;
     private String sellerId;
     private List<String> reviews;
-
     private Byte averageRating;
 
     public Store() {
