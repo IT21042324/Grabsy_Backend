@@ -22,14 +22,14 @@ public class SellerController {
         this.sellerModelAssembler = sellerModelAssembler;
     }
 
-    @GetMapping("{userId}")
-    public EntityModel<Seller> getSellerById(@PathVariable String userId) {
-        return sellerModelAssembler.toModel(sellerService.getSellerById(userId));
-    }
-
     @GetMapping("/all")
     public CollectionModel<EntityModel<Seller>> findAllSellers() {
         return sellerModelAssembler.toCollectionModel(sellerService.findAllSellers());
+    }
+
+    @GetMapping("{userId}")
+    public EntityModel<Seller> getSellerById(@PathVariable String userId) {
+        return sellerModelAssembler.toModel(sellerService.getSellerById(userId));
     }
 
     @DeleteMapping("/remove/{userId}")

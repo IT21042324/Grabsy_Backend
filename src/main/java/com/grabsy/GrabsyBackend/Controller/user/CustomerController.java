@@ -37,13 +37,6 @@ public class CustomerController {
         return customerModelAssembler.toModel(customer);
     }
 
-    @DeleteMapping("/remove/{userId}")
-    public ResponseEntity<?> removeById(@PathVariable String userId){
-        customerService.removeById(userId);
-
-        return ResponseEntity.noContent().build();
-    }
-
     @PatchMapping("/shipping-address")
     public ResponseEntity<EntityModel<Customer>> updateShippingAddress(@RequestBody AddCustomerShippingAddressDto dto){
         Customer customer = customerService.updateShippingAddress(dto);
@@ -51,6 +44,13 @@ public class CustomerController {
         EntityModel<Customer> entityModel = customerModelAssembler.toModel(customer);
 
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
+
+    @DeleteMapping("/remove/{userId}")
+    public ResponseEntity<?> removeById(@PathVariable String userId){
+        customerService.removeById(userId);
+
+        return ResponseEntity.noContent().build();
     }
 
     // TODO : Manage Payment Cards (add/update/remove)

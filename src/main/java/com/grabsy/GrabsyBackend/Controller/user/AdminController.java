@@ -19,16 +19,16 @@ public class AdminController {
         this.adminModelAssembler = adminModelAssembler;
     }
 
-    //get
-    @GetMapping("{userId}")
-    public EntityModel<Admin> getAdminById(@PathVariable String userId){
-        return adminModelAssembler.toModel(adminService.getAdminById(userId));
-    }
-
     //get all
     @GetMapping("/all")
     public CollectionModel<EntityModel<Admin>> getAllAdmins(){
         return adminModelAssembler.toCollectionModel(adminService.getAllAdmins());
+    }
+
+    //get
+    @GetMapping("{userId}")
+    public EntityModel<Admin> getAdminById(@PathVariable String userId){
+        return adminModelAssembler.toModel(adminService.getAdminById(userId));
     }
 
     //delete
