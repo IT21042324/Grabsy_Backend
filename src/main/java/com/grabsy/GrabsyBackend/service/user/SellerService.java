@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Service.user;
+package com.grabsy.GrabsyBackend.service.user;
 
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.SellerDto;
@@ -7,8 +7,8 @@ import com.grabsy.GrabsyBackend.exception.user.UserDeletionException;
 import com.grabsy.GrabsyBackend.exception.user.UserFetchException;
 import com.grabsy.GrabsyBackend.exception.user.UserSaveException;
 import com.grabsy.GrabsyBackend.repository.user.SellerRepository;
-import com.grabsy.GrabsyBackend.Service.SecurityService;
-import com.grabsy.GrabsyBackend.Service.UserIdGeneratorService;
+import com.grabsy.GrabsyBackend.service.SecurityService;
+import com.grabsy.GrabsyBackend.service.UserIdGeneratorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

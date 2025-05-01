@@ -1,7 +1,7 @@
 package com.grabsy.GrabsyBackend.controller;
 
 import com.grabsy.GrabsyBackend.entity.Store;
-import com.grabsy.GrabsyBackend.Service.StoreService;
+import com.grabsy.GrabsyBackend.service.StoreService;
 import org.springframework.hateoas.EntityModel;
 
 public class StoreController {

@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Service;
+package com.grabsy.GrabsyBackend.service;
 
 import com.grabsy.GrabsyBackend.controller.ProductController;
 import com.grabsy.GrabsyBackend.controller.StoreController;

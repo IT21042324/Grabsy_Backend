@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Service.user;
+package com.grabsy.GrabsyBackend.service.user;
 
 import com.grabsy.GrabsyBackend.exception.user.UserDeletionException;
 import com.grabsy.GrabsyBackend.exception.user.UserFetchException;

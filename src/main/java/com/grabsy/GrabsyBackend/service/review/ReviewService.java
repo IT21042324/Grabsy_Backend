@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.Service.review;
+package com.grabsy.GrabsyBackend.service.review;
 import com.grabsy.GrabsyBackend.domain.Review;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityModel;
