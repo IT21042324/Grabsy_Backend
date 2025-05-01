@@ -1,7 +1,7 @@
 package com.grabsy.GrabsyBackend.controller;
 
 import com.grabsy.GrabsyBackend.entity.review.ProductReview;
-import com.grabsy.GrabsyBackend.ervice.review.ProductReviewService;
+import com.grabsy.GrabsyBackend.Service.review.ProductReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

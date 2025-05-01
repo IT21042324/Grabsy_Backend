@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.ervice.user;
+package com.grabsy.GrabsyBackend.Service.user;
 
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.AddCustomerShippingAddressDto;
@@ -6,8 +6,8 @@ import com.grabsy.GrabsyBackend.dto.CustomerDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
 import com.grabsy.GrabsyBackend.exception.user.*;
 import com.grabsy.GrabsyBackend.repository.user.CustomerRepository;
-import com.grabsy.GrabsyBackend.ervice.SecurityService;
-import com.grabsy.GrabsyBackend.ervice.UserIdGeneratorService;
+import com.grabsy.GrabsyBackend.Service.SecurityService;
+import com.grabsy.GrabsyBackend.Service.UserIdGeneratorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;

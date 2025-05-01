@@ -3,7 +3,7 @@ package com.grabsy.GrabsyBackend.controller;
 import com.grabsy.GrabsyBackend.entity.Product;
 import com.grabsy.GrabsyBackend.entity.review.ProductReview;
 import com.grabsy.GrabsyBackend.response.ProductResponse;
-import com.grabsy.GrabsyBackend.ervice.ProductService;
+import com.grabsy.GrabsyBackend.Service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

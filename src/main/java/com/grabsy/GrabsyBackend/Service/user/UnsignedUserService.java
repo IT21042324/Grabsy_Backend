@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.ervice.user;
+package com.grabsy.GrabsyBackend.Service.user;
 
 import org.springframework.stereotype.Service;
 

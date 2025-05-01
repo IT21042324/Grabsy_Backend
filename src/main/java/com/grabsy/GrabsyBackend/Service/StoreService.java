@@ -1,11 +1,10 @@
-package com.grabsy.GrabsyBackend.service;
+package com.grabsy.GrabsyBackend.Service;
 
 import com.grabsy.GrabsyBackend.controller.ProductController;
 import com.grabsy.GrabsyBackend.controller.StoreController;
 import com.grabsy.GrabsyBackend.entity.Store;
 import com.grabsy.GrabsyBackend.exception.StoreNotFoundException;
 import com.grabsy.GrabsyBackend.repository.StoreRepository;
-import com.grabsy.GrabsyBackend.response.ProductResponse;
 import com.grabsy.GrabsyBackend.response.StoreResponse;
 import com.grabsy.GrabsyBackend.util.EntityToResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;

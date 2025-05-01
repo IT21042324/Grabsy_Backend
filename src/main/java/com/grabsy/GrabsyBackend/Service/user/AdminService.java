@@ -1,12 +1,12 @@
-package com.grabsy.GrabsyBackend.service.user;
+package com.grabsy.GrabsyBackend.Service.user;
 
 import com.grabsy.GrabsyBackend.constant.UserRole;
 import com.grabsy.GrabsyBackend.dto.AdminDto;
 import com.grabsy.GrabsyBackend.entity.users.Admin;
 import com.grabsy.GrabsyBackend.exception.user.UserSaveException;
 import com.grabsy.GrabsyBackend.repository.user.AdminRepository;
-import com.grabsy.GrabsyBackend.service.SecurityService;
-import com.grabsy.GrabsyBackend.service.UserIdGeneratorService;
+import com.grabsy.GrabsyBackend.Service.SecurityService;
+import com.grabsy.GrabsyBackend.Service.UserIdGeneratorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;

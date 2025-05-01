@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.ervice;
+package com.grabsy.GrabsyBackend.Service;
 
 import com.grabsy.GrabsyBackend.entity.UserIdCounter;
 import com.grabsy.GrabsyBackend.repository.UserIdCounterRepository;

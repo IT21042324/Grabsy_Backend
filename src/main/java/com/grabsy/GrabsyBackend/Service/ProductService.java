@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.ervice;
+package com.grabsy.GrabsyBackend.Service;
 
 import com.grabsy.GrabsyBackend.controller.ProductController;
 import com.grabsy.GrabsyBackend.controller.ProductReviewController;
@@ -8,7 +8,7 @@ import com.grabsy.GrabsyBackend.exception.ProductNotFoundException;
 import com.grabsy.GrabsyBackend.exception.ReviewNotFoundException;
 import com.grabsy.GrabsyBackend.repository.ProductRepository;
 import com.grabsy.GrabsyBackend.response.ProductResponse;
-import com.grabsy.GrabsyBackend.ervice.review.ProductReviewService;
+import com.grabsy.GrabsyBackend.Service.review.ProductReviewService;
 import com.grabsy.GrabsyBackend.util.BeanReflectionUtil;
 import com.grabsy.GrabsyBackend.util.EntityToResponseMapper;
 import org.springframework.hateoas.CollectionModel;

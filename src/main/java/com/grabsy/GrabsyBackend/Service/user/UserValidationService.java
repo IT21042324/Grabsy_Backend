@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.ervice.user;
+package com.grabsy.GrabsyBackend.Service.user;
 
 import com.grabsy.GrabsyBackend.exception.user.*;
 import com.grabsy.GrabsyBackend.repository.user.EmailRepository;

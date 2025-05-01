@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.ervice.review;
+package com.grabsy.GrabsyBackend.Service.review;
 import com.grabsy.GrabsyBackend.controller.ProductReviewController;
 import com.grabsy.GrabsyBackend.entity.review.ProductReview;
 import com.grabsy.GrabsyBackend.exception.ReviewNotFoundException;
