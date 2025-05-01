@@ -3,7 +3,7 @@ package com.grabsy.GrabsyBackend.controller.user;
 import com.grabsy.GrabsyBackend.assembler.CustomerModelAssembler;
 import com.grabsy.GrabsyBackend.dto.AddCustomerShippingAddressDto;
 import com.grabsy.GrabsyBackend.entity.users.Customer;
-import com.grabsy.GrabsyBackend.ervice.user.CustomerService;
+import com.grabsy.GrabsyBackend.service.user.CustomerService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;

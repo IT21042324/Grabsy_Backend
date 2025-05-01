@@ -1,7 +1,7 @@
 package com.grabsy.GrabsyBackend.controller;
 
 import com.grabsy.GrabsyBackend.entity.Product;
-import com.grabsy.GrabsyBackend.ervice.ProductService;
+import com.grabsy.GrabsyBackend.service.ProductService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
