@@ -1,15 +1,12 @@
 package com.grabsy.GrabsyBackend.controller;
 
-import com.grabsy.GrabsyBackend.entity.Product;
 import com.grabsy.GrabsyBackend.response.ProductResponse;
-import com.grabsy.GrabsyBackend.service.ProductService;
+import com.grabsy.GrabsyBackend.ervice.ProductService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/catalog")

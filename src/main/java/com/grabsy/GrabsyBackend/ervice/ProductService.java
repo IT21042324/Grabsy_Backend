@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.service;
+package com.grabsy.GrabsyBackend.ervice;
 
 import com.grabsy.GrabsyBackend.controller.ProductController;
 import com.grabsy.GrabsyBackend.controller.ProductReviewController;
@@ -8,11 +8,9 @@ import com.grabsy.GrabsyBackend.exception.ProductNotFoundException;
 import com.grabsy.GrabsyBackend.exception.ReviewNotFoundException;
 import com.grabsy.GrabsyBackend.repository.ProductRepository;
 import com.grabsy.GrabsyBackend.response.ProductResponse;
-import com.grabsy.GrabsyBackend.service.review.ProductReviewService;
+import com.grabsy.GrabsyBackend.ervice.review.ProductReviewService;
 import com.grabsy.GrabsyBackend.util.BeanReflectionUtil;
 import com.grabsy.GrabsyBackend.util.EntityToResponseMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;

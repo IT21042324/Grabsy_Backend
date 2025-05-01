@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.service.review;
+package com.grabsy.GrabsyBackend.ervice.review;
 
 import com.grabsy.GrabsyBackend.controller.ProductReviewController;
 import com.grabsy.GrabsyBackend.controller.StoreReviewController;

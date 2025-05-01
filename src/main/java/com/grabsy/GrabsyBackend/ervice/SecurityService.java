@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.service;
+package com.grabsy.GrabsyBackend.ervice;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
