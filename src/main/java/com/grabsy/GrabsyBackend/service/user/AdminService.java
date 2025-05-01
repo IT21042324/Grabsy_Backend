@@ -16,19 +16,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class AdminService extends SignedUserService{
+public class AdminService{
     private final UserValidationService userValidationService;
     private final AdminRepository adminRepository;
     private final SecurityService securityService;
     private final UserIdGeneratorService userIdGeneratorService;
     private static final Logger log = LoggerFactory.getLogger(AdminService.class);
+    private final SignedUserService signedUserService;
 
     public AdminService(UserValidationService userValidationService, AdminRepository adminRepository,
-                        SecurityService securityService, UserIdGeneratorService userIdGeneratorService) {
+                        SecurityService securityService, UserIdGeneratorService userIdGeneratorService, SignedUserService signedUserService) {
         this.userValidationService = userValidationService;
         this.adminRepository = adminRepository;
         this.securityService = securityService;
         this.userIdGeneratorService = userIdGeneratorService;
+        this.signedUserService = signedUserService;
     }
 
     public Admin registerAdmin(AdminDto adminDto) {
@@ -41,7 +43,7 @@ public class AdminService extends SignedUserService{
         // create admin
         Admin admin = new Admin();
         admin.setUserRole(String.valueOf(UserRole.ADMIN));
-        admin.setUserId(userIdGeneratorService.generateUserId(admin.getUserRole()));
+        admin.setUserId(userIdGeneratorService.generateUserId(UserRole.ADMIN));
         admin.setPasswordHash(securityService.hashPassword(adminDto.getPassword()));
         admin.setName(adminDto.getName());
         admin.setEmail(adminDto.getEmail());
@@ -58,14 +60,14 @@ public class AdminService extends SignedUserService{
     }
 
     public Admin getAdminById(String userId){
-        return getUserById(userId, adminRepository);
+        return signedUserService.getUserByIdOrThrow(userId, adminRepository);
     }
 
     public List<Admin> getAllAdmins(){
-        return getAllUsersByRole(adminRepository);
+        return signedUserService.getAllUsersByRoleOrThrow(adminRepository);
     }
 
     public void removeAdminById(String userId){
-        deleteUserById(userId, adminRepository);
+        signedUserService.deleteUserByIdOrThrow(userId, adminRepository);
     }
 }

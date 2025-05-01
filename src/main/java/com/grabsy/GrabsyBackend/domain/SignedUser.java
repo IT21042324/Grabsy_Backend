@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 public abstract class SignedUser {
     // attributes
     @Id
-    // TODO : Change userID to string, and use custom id generator class to create userID based on whether the person is customer, seller, or admin
     protected String userId;
     protected String userRole, name, email, passwordHash, phoneNumber;
     protected LocalDateTime registrationDate;

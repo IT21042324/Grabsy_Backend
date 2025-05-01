@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.exception.user;
+package com.grabsy.GrabsyBackend.exception.user.attribute;
 
 public class InvalidEmailException extends ValidationException {
     public InvalidEmailException(String message) {
