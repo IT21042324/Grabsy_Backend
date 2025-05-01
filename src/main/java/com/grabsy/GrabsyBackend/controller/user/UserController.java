@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 public class UserController {
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public UserController(ProductRepository productRepository) {
         this.productRepository = productRepository;
