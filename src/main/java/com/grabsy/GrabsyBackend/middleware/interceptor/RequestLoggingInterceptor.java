@@ -1,4 +1,4 @@
-package com.grabsy.GrabsyBackend.iddleware.interceptor;
+package com.grabsy.GrabsyBackend.middleware.interceptor;
 
 import com.grabsy.GrabsyBackend.util.LogFormatter;
 import jakarta.servlet.http.HttpServletRequest;
