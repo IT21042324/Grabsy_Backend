@@ -18,49 +18,49 @@ import java.util.List;
 public class ProductController {
     private final ProductService service;
 
-    public ProductController(@Autowired ProductService service) {
+    public ProductController(ProductService service) {
         this.service = service;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<Product>> findById(@PathVariable String id) {
+    public ResponseEntity<EntityModel<ProductResponse>> findById(@PathVariable String id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping
-    public ResponseEntity<CollectionModel<EntityModel<Product>>> findAll() {
+    public ResponseEntity<CollectionModel<EntityModel<ProductResponse>>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/find/all/ids")
-    public ResponseEntity<CollectionModel<EntityModel<Product>>> findAllById(@RequestParam List<String> id) {
-        CollectionModel<EntityModel<Product>> allById = service.findAllById(id);
+    public ResponseEntity<CollectionModel<EntityModel<ProductResponse>>> findAllById(@RequestParam List<String> id) {
+        CollectionModel<EntityModel<ProductResponse>> allById = service.findAllById(id);
         return ResponseEntity.ok(allById);
     }
 
     @PostMapping("/find/all")
-    public ResponseEntity<CollectionModel<EntityModel<Product>>> findAllByIdThroughPostBodyRequest(
+    public ResponseEntity<CollectionModel<EntityModel<ProductResponse>>> findAllByIdThroughPostBodyRequest(
             @RequestBody List<String> ids) {
-        CollectionModel<EntityModel<Product>> allById = service.findAllById(ids);
+        CollectionModel<EntityModel<ProductResponse>> allById = service.findAllById(ids);
         return ResponseEntity.ok(allById);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<EntityModel<Product>> save(@RequestBody Product product) {
-        EntityModel<Product> savedProduct = service.save(product);
+    public ResponseEntity<EntityModel<ProductResponse>> save(@RequestBody Product product) {
+        EntityModel<ProductResponse> savedProduct = service.save(product);
         return ResponseEntity.created(savedProduct.getRequiredLink("self").toUri()).body(savedProduct);
     }
 
     @PostMapping("/save/all")
-    public ResponseEntity<CollectionModel<EntityModel<Product>>> saveAll(@RequestBody List<Product> productListToSave) {
-        CollectionModel<EntityModel<Product>> savedProducts = service.saveAll(productListToSave);
+    public ResponseEntity<CollectionModel<EntityModel<ProductResponse>>> saveAll(@RequestBody List<Product> productListToSave) {
+        CollectionModel<EntityModel<ProductResponse>> savedProducts = service.saveAll(productListToSave);
         return ResponseEntity.created(savedProducts.getRequiredLink("self").toUri()).body(savedProducts);
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<EntityModel<Product>> findByIdAndUpdate(@PathVariable String id,
+    public ResponseEntity<EntityModel<ProductResponse>> findByIdAndUpdate(@PathVariable String id,
                                                                   @RequestBody Product productToSave) {
-        EntityModel<Product> updatedProductById = service.findByIdAndUpdate(id, productToSave);
+        EntityModel<ProductResponse> updatedProductById = service.findByIdAndUpdate(id, productToSave);
         return ResponseEntity.ok(updatedProductById);
     }
 

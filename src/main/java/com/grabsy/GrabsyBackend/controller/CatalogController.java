@@ -1,12 +1,12 @@
 package com.grabsy.GrabsyBackend.controller;
 
 import com.grabsy.GrabsyBackend.entity.Product;
+import com.grabsy.GrabsyBackend.response.ProductResponse;
 import com.grabsy.GrabsyBackend.service.ProductService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/catalog")
 public class CatalogController {
-    private ProductService productService;
+    private final ProductService productService;
 
     public CatalogController(ProductService productService) {
         this.productService = productService;
@@ -25,7 +25,7 @@ public class CatalogController {
      * @return the CollectionModel<EntityModel<Product>> object
      */
     @GetMapping
-    public CollectionModel<EntityModel<Product>> browseCatalog(){
+    public CollectionModel<EntityModel<ProductResponse>> browseCatalog(){
         return productService.findAll();
     }
 

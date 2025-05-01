@@ -68,7 +68,8 @@ public class StoreReviewService implements ReviewService<StoreReview> {
     }
 
     @Override
-    public List<StoreReview> findReviewsMadeByUserToReviewable(String userId, String reviewableId, String sortingProperty) {
+    public List<StoreReview> findReviewsMadeByUserToReviewable(String userId, String reviewableId, String
+            sortingProperty) {
         Sort sort = Sort.by(DEFAULT_SORT_DIRECTION, sortingProperty);
 
         List<StoreReview> storeReviewsMadeByUser =  storeReviewRepository.findReviewsMadeByUserToStore(userId,

@@ -11,6 +11,8 @@ import com.grabsy.GrabsyBackend.response.ProductResponse;
 import com.grabsy.GrabsyBackend.service.review.ProductReviewService;
 import com.grabsy.GrabsyBackend.util.BeanReflectionUtil;
 import com.grabsy.GrabsyBackend.util.EntityToResponseMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
@@ -32,49 +34,57 @@ public class ProductService {
         this.reviewService = reviewService;
     }
 
-    public EntityModel<Product> findById(String id) {
+    public EntityModel<ProductResponse> findById(String id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+        ProductResponse productResponse = EntityToResponseMapper.productToProductResponseMapper(product);
 
-        return EntityModel.of(product, linkTo(methodOn(ProductController.class).findById(id)).withSelfRel(),
+        return EntityModel.of(productResponse, linkTo(methodOn(ProductController.class).findById(id)).withSelfRel(),
                 linkTo(methodOn(ProductController.class).findAll()).withRel("products"));
     }
 
-    public CollectionModel<EntityModel<Product>> findAllById(List<String> ids) {
-        List<EntityModel<Product>> productList = productRepository.findAllById(ids).stream().map(product ->
-                EntityModel.of(product,
-                        linkTo(methodOn(ProductController.class).findById(product.getId())).withSelfRel())).toList();
+    public CollectionModel<EntityModel<ProductResponse>> findAllById(List<String> ids) {
+        List<EntityModel<ProductResponse>> productList = productRepository.findAllById(ids).stream().map(product -> {
+            ProductResponse productResponse = EntityToResponseMapper.productToProductResponseMapper(product);
+            return EntityModel.of(productResponse,
+                    linkTo(methodOn(ProductController.class).findById(product.getId())).withSelfRel());
+        }).toList();
 
         return CollectionModel.of(productList,
                 linkTo(methodOn(ProductController.class).findAllById(ids)).withSelfRel());
     }
 
-    public CollectionModel<EntityModel<Product>> findAll() {
-        List<EntityModel<Product>> collect = productRepository.findAll().stream().map(prod ->
-                EntityModel.of(prod, linkTo(methodOn(ProductController.class).findById(prod.getId())).
-                        withSelfRel())).toList();
+    public CollectionModel<EntityModel<ProductResponse>> findAll() {
+        List<EntityModel<ProductResponse>> productList = productRepository.findAll().stream().map(product -> {
+            ProductResponse productResponse = EntityToResponseMapper.productToProductResponseMapper(product);
+            return EntityModel.of(productResponse,
+                    linkTo(methodOn(ProductController.class).findById(product.getId())).withSelfRel());
+        }).toList();
 
-        return CollectionModel.of(collect, linkTo(methodOn(ProductController.class).findAll()).withSelfRel());
+        return CollectionModel.of(productList,
+                linkTo(methodOn(ProductController.class).findAll()).withSelfRel());
     }
 
-    public EntityModel<Product> save(Product product) {
+    public EntityModel<ProductResponse> save(Product product) {
         Product createdProduct = productRepository.save(product);
-        return EntityModel.of(createdProduct, linkTo(methodOn(ProductController.class).findById(createdProduct.
+        ProductResponse productResponse = EntityToResponseMapper.productToProductResponseMapper(createdProduct);
+
+        return EntityModel.of(productResponse, linkTo(methodOn(ProductController.class).findById(productResponse.
                 getId())).withSelfRel());
     }
 
-    public CollectionModel<EntityModel<Product>> saveAll(List<Product> products) {
-        List<EntityModel<Product>> productsCollectionAfterSelfRelation = productRepository.saveAll(products).
-                stream().map(product -> EntityModel.of(product,
-                        linkTo(methodOn(ProductController.class).findById(product.getId())).withSelfRel()))
-                .toList();
-
-        List<String> idList = products.stream().map(Product::getId).toList();
+    public CollectionModel<EntityModel<ProductResponse>> saveAll(List<Product> products) {
+        List<EntityModel<ProductResponse>> productsCollectionAfterSelfRelation = productRepository.saveAll(products).
+                stream().map(product -> {
+            ProductResponse productResponse = EntityToResponseMapper.productToProductResponseMapper(product);
+            return EntityModel.of(productResponse, linkTo(methodOn(ProductController.class).findById(product.getId())).
+                    withSelfRel());}).toList();
 
         return CollectionModel.of(productsCollectionAfterSelfRelation,
-                linkTo(methodOn(ProductController.class).findAllById(idList)).withSelfRel());
+                linkTo(methodOn(ProductController.class).findAllById(products.stream().map(Product::getId).toList())).
+                        withSelfRel());
     }
 
-    public EntityModel<Product> findByIdAndUpdate(String id, Product productToSave) {
+    public EntityModel<ProductResponse> findByIdAndUpdate(String id, Product productToSave) {
         return productRepository.findById(id).map(existingProduct -> {
             // cannot update reviews through this controller function
             productToSave.setReviews(null);
@@ -83,8 +93,9 @@ public class ProductService {
                     orElseGet(() -> existingProduct);
 
             Product saved = productRepository.save(updated);
+            ProductResponse productResponse = EntityToResponseMapper.productToProductResponseMapper(saved);
 
-            return EntityModel.of(saved, linkTo(methodOn(ProductController.class).findById(id)).
+            return EntityModel.of(productResponse, linkTo(methodOn(ProductController.class).findById(id)).
                     withSelfRel());
         }).orElseThrow(() -> new ProductNotFoundException(id));
     }
@@ -157,8 +168,7 @@ public class ProductService {
     public EntityModel<ProductResponse> updateReviewForProduct(String productId, String reviewId, ProductReview productReview) {
         reviewService.updateReview(reviewId, productReview).getContent();
 
-        Product product = this.findById(productId).getContent();
-        ProductResponse productResponse = EntityToResponseMapper.productToProductResponseMapper(product);
+        ProductResponse productResponse = this.findById(productId).getContent();
 
         return EntityModel.of(productResponse, linkTo(methodOn(ProductController.class).findById(productId)).
                 withSelfRel());
