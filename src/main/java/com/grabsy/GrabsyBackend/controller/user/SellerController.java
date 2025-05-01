@@ -2,7 +2,7 @@ package com.grabsy.GrabsyBackend.controller.user;
 
 import com.grabsy.GrabsyBackend.assembler.SellerModelAssembler;
 import com.grabsy.GrabsyBackend.entity.users.Seller;
-import com.grabsy.GrabsyBackend.service.user.SellerService;
+import com.grabsy.GrabsyBackend.ervice.user.SellerService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
